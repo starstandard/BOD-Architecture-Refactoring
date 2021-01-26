@@ -1,0 +1,2179 @@
+swagger: "2.0"
+
+info:
+  version: "1.1.0"
+  title: Repair Orders
+  description: |
+    ## CDK Drive - Service - Repair Orders
+    A repair order is a working record of a the work carried out by the service department on a 
+    vehicle. This could be any set of services, repairs, body repairs, government tests etc. This 
+    version is specific to CDK Drive.
+
+    ## What does this API do?
+    The API will allow you to query, retrieve, create and update repair orders.
+
+    ## Intended Audience
+    It is expected that service applications used by service advisors, technicians, and service 
+    managers  will use this service to find, open, update, and review repair orders.
+
+basePath: /cdkdrive/service/v1/repair-orders
+
+schemes:
+  - https
+
+paths:
+  /:
+    get:
+      summary: Query open repair orders
+      description: | 
+        Query open repair orders for a given service advisors
+      operationId: queryRepairOrders
+      tags:
+        - repair order
+      parameters:
+        - $ref: "#/parameters/header.Request-Id"
+        - $ref: "#/parameters/header.Subscription-Id"
+        - $ref: "#/parameters/header.Authorization"
+        - $ref: "#/parameters/query.serviceAdvisorId"
+      produces:
+        - application/json
+      responses:
+        200:
+          $ref: "#/responses/RepairOrderCollection"
+        400:
+          $ref: "#/responses/BadRequest"
+        401:
+          $ref: "#/responses/Unauthorized"
+        403:
+          $ref: "#/responses/Forbidden"
+        404:
+          $ref: "#/responses/NotFound"
+    post:
+      summary: Create repair order
+      description: Create a repair order
+      operationId: createRepairOrder
+      tags:
+        - repair order
+      parameters:
+        - $ref: "#/parameters/header.Request-Id"
+        - $ref: "#/parameters/header.Subscription-Id"
+        - $ref: "#/parameters/header.Authorization"
+        - $ref: "#/parameters/body.createRepairOrder"
+      produces:
+        - application/json
+      responses:
+        201:
+          $ref: "#/responses/RepairOrder"
+        400:
+          $ref: "#/responses/BadRequest"
+        401:
+          $ref: "#/responses/Unauthorized"
+        403:
+          $ref: "#/responses/Forbidden"
+
+  /{repairOrderId}/:
+    get:
+      summary: Query a repair order by identifier
+      description: Query a repair order by identifier
+      operationId: queryRepairOrderById
+      tags:
+        - repair order
+      parameters:
+        - $ref: "#/parameters/header.Request-Id"
+        - $ref: "#/parameters/header.Subscription-Id"
+        - $ref: "#/parameters/header.Authorization"
+        - $ref: "#/parameters/path.repairOrderId"
+      produces:
+        - application/json
+      responses:
+        200:
+          $ref: "#/responses/RepairOrder"
+        400:
+          $ref: "#/responses/BadRequest"
+        401:
+          $ref: "#/responses/Unauthorized"
+        403:
+          $ref: "#/responses/Forbidden"
+        404:
+          $ref: "#/responses/NotFound"
+    post:
+      summary: Update a repair order
+      description: | 
+        Update a repair order's header information. ServiceLines can be added, updated, or deleted 
+        using the ServiceLine endpoints
+      operationId: updateRepairOrder
+      tags:
+        - repair order
+      parameters:
+        - $ref: "#/parameters/header.Request-Id"
+        - $ref: "#/parameters/header.Subscription-Id"
+        - $ref: "#/parameters/header.Authorization"
+        - $ref: "#/parameters/header.If-Match"
+        - $ref: "#/parameters/path.repairOrderId"
+        - $ref: "#/parameters/body.updateRepairOrder"
+      produces:
+        - application/json
+      responses:
+        200:
+          $ref: "#/responses/RepairOrder"
+        400:
+          $ref: "#/responses/BadRequest"
+        401:
+          $ref: "#/responses/Unauthorized"
+        403:
+          $ref: "#/responses/Forbidden"
+        404:
+          $ref: "#/responses/NotFound"
+
+  /{repairOrderId}/service-lines:
+    post:
+      summary: Add a service line
+      description: Add service line to the repair order
+      operationId: addServiceLine
+      tags:
+        - service line
+      parameters:
+        - $ref: "#/parameters/header.Request-Id"
+        - $ref: "#/parameters/header.Subscription-Id"
+        - $ref: "#/parameters/header.Authorization"
+        - $ref: "#/parameters/header.If-Match"
+        - $ref: "#/parameters/path.repairOrderId"
+        - $ref: "#/parameters/body.addServiceLine"
+      produces:
+        - application/json
+      responses:
+        201:
+          $ref: "#/responses/ServiceLine"
+        400:
+          $ref: "#/responses/BadRequest"
+        401:
+          $ref: "#/responses/Unauthorized"
+        403:
+          $ref: "#/responses/Forbidden"
+        404:
+          $ref: "#/responses/NotFound"
+
+  /{repairOrderId}/service-lines/{serviceLineId}/:
+    get:
+      summary: Query a service line
+      description: Query a service line
+      operationId: queryServiceLineById
+      tags:
+        - service line
+      parameters:
+        - $ref: "#/parameters/header.Request-Id"
+        - $ref: "#/parameters/header.Subscription-Id"
+        - $ref: "#/parameters/header.Authorization"
+        - $ref: "#/parameters/path.repairOrderId"
+        - $ref: "#/parameters/path.serviceLineId"
+      produces:
+        - application/json
+      responses:
+        200:
+          $ref: "#/responses/ServiceLine"
+        400:
+          $ref: "#/responses/BadRequest"
+        401:
+          $ref: "#/responses/Unauthorized"
+        403:
+          $ref: "#/responses/Forbidden"
+        404:
+          $ref: "#/responses/NotFound"
+    post:
+      summary: Update a service line
+      description: Update a service line
+      operationId: updateServiceLine
+      tags:
+        - service line
+      parameters:
+        - $ref: "#/parameters/header.Request-Id"
+        - $ref: "#/parameters/header.Subscription-Id"
+        - $ref: "#/parameters/header.Authorization"
+        - $ref: "#/parameters/header.If-Match"
+        - $ref: "#/parameters/path.repairOrderId"
+        - $ref: "#/parameters/path.serviceLineId"
+        - $ref: "#/parameters/body.updateServiceLine"
+      produces:
+        - application/json
+      responses:
+        200:
+          $ref: "#/responses/ServiceLine"
+        400:
+          $ref: "#/responses/BadRequest"
+        401:
+          $ref: "#/responses/Unauthorized"
+        403:
+          $ref: "#/responses/Forbidden"
+        404:
+          $ref: "#/responses/NotFound"
+    delete:
+      summary: Delete a service line
+      description: Delete a service line
+      operationId: deleteServiceLine
+      tags:
+        - service line
+      parameters:
+        - $ref: "#/parameters/header.Request-Id"
+        - $ref: "#/parameters/header.Subscription-Id"
+        - $ref: "#/parameters/header.Authorization"
+        - $ref: "#/parameters/header.If-Match"
+        - $ref: "#/parameters/path.repairOrderId"
+        - $ref: "#/parameters/path.serviceLineId"
+      produces:
+        - application/json
+      responses:
+        204:
+          $ref: "#/responses/Success"
+        400:
+          $ref: "#/responses/BadRequest"
+        401:
+          $ref: "#/responses/Unauthorized"
+        403:
+          $ref: "#/responses/Forbidden"
+        404:
+          $ref: "#/responses/NotFound"
+
+  /lookups/dispatchcodes:
+    get:
+      summary: Query dispatch codes
+      description: Query dispatch codes
+      operationId: queryDispatchCodes
+      tags:
+        - lookups
+      parameters:
+        - $ref: "#/parameters/header.Request-Id"
+        - $ref: "#/parameters/header.Subscription-Id"
+        - $ref: "#/parameters/header.Authorization"
+      produces:
+        - application/json
+      responses:
+        200:
+          $ref: "#/responses/DispatchCodeCollection"
+        400:
+          $ref: "#/responses/BadRequest"
+        401:
+          $ref: "#/responses/Unauthorized"
+        403:
+          $ref: "#/responses/Forbidden"
+        404:
+          $ref: "#/responses/NotFound"
+
+  /lookups/dispatchcodes/{dispatchCodeId}/:
+    get:
+      summary: Query a dispatch code
+      description: Query a dispatch code by unique identifier
+      operationId: queryDispatchCodeById
+      tags:
+        - lookups
+      parameters:
+        - $ref: "#/parameters/header.Request-Id"
+        - $ref: "#/parameters/header.Subscription-Id"
+        - $ref: "#/parameters/header.Authorization"
+        - $ref: "#/parameters/path.dispatchCodeId"
+      produces:
+        - application/json
+      responses:
+        200:
+          $ref: "#/responses/DispatchCode"
+        400:
+          $ref: "#/responses/BadRequest"
+        401:
+          $ref: "#/responses/Unauthorized"
+        403:
+          $ref: "#/responses/Forbidden"
+        404:
+          $ref: "#/responses/NotFound"
+
+  /lookups/dispatchmakecodes:
+    get:
+      summary: Query dispatch make codes
+      description: Query dispatch make codes
+      operationId: queryDispatchMakeCodes
+      tags:
+        - lookups
+      parameters:
+        - $ref: "#/parameters/header.Request-Id"
+        - $ref: "#/parameters/header.Subscription-Id"
+        - $ref: "#/parameters/header.Authorization"
+      produces:
+        - application/json
+      responses:
+        200:
+          $ref: "#/responses/DispatchMakeCodeCollection"
+        400:
+          $ref: "#/responses/BadRequest"
+        401:
+          $ref: "#/responses/Unauthorized"
+        403:
+          $ref: "#/responses/Forbidden"
+        404:
+          $ref: "#/responses/NotFound"
+
+  /lookups/labortypes:
+    get:
+      summary: Query labor types
+      description: Query labor types
+      operationId: queryLaborTypes
+      tags:
+        - lookups
+      parameters:
+        - $ref: "#/parameters/header.Request-Id"
+        - $ref: "#/parameters/header.Subscription-Id"
+        - $ref: "#/parameters/header.Authorization"
+      produces:
+        - application/json
+      responses:
+        200:
+          $ref: "#/responses/LaborTypeCollection"
+        400:
+          $ref: "#/responses/BadRequest"
+        401:
+          $ref: "#/responses/Unauthorized"
+        403:
+          $ref: "#/responses/Forbidden"
+        404:
+          $ref: "#/responses/NotFound"
+
+  /lookups/labortypes/{laborTypeId}/:
+    get:
+      summary: Query a labor type
+      description: Query a labor type by unique identifier
+      operationId: queryLaborTypeById
+      tags:
+        - lookups
+      parameters:
+        - $ref: "#/parameters/header.Request-Id"
+        - $ref: "#/parameters/header.Subscription-Id"
+        - $ref: "#/parameters/header.Authorization"
+        - $ref: "#/parameters/path.laborTypeId"
+      produces:
+        - application/json
+      responses:
+        200:
+          $ref: "#/responses/LaborType"
+        400:
+          $ref: "#/responses/BadRequest"
+        401:
+          $ref: "#/responses/Unauthorized"
+        403:
+          $ref: "#/responses/Forbidden"
+        404:
+          $ref: "#/responses/NotFound"
+
+  /lookups/service-advisors:
+    get:
+      summary: Query service advisors
+      description: Query service advisors
+      operationId: queryServiceAdvisors
+      tags:
+        - lookups
+      parameters:
+        - $ref: "#/parameters/header.Request-Id"
+        - $ref: "#/parameters/header.Subscription-Id"
+        - $ref: "#/parameters/header.Authorization"
+      produces:
+        - application/json
+      responses:
+        200:
+          $ref: "#/responses/ServiceAdvisorCollection"
+        400:
+          $ref: "#/responses/BadRequest"
+        401:
+          $ref: "#/responses/Unauthorized"
+        403:
+          $ref: "#/responses/Forbidden"
+        404:
+          $ref: "#/responses/NotFound"
+
+  /lookups/service-advisors/{serviceAdvisorId}/:
+    get:
+      summary: Query a service advisor record
+      description: Query a service advisor record by identifier
+      operationId: queryServiceAdvisorById
+      tags:
+        - lookups
+      parameters:
+        - $ref: "#/parameters/header.Request-Id"
+        - $ref: "#/parameters/header.Subscription-Id"
+        - $ref: "#/parameters/header.Authorization"
+        - $ref: "#/parameters/path.serviceAdvisorId"
+      produces:
+        - application/json
+      responses:
+        200:
+          $ref: "#/responses/ServiceAdvisor"
+        400:
+          $ref: "#/responses/BadRequest"
+        401:
+          $ref: "#/responses/Unauthorized"
+        403:
+          $ref: "#/responses/Forbidden"
+        404:
+          $ref: "#/responses/NotFound"
+
+  /lookups/technicians:
+    get:
+      summary: Query technicians
+      description: Query technicians
+      operationId: queryTechnicians
+      tags:
+        - lookups
+      parameters:
+        - $ref: "#/parameters/header.Request-Id"
+        - $ref: "#/parameters/header.Subscription-Id"
+        - $ref: "#/parameters/header.Authorization"
+      produces:
+        - application/json
+      responses:
+        200:
+          $ref: "#/responses/TechnicianCollection"
+        400:
+          $ref: "#/responses/BadRequest"
+        401:
+          $ref: "#/responses/Unauthorized"
+        403:
+          $ref: "#/responses/Forbidden"
+        404:
+          $ref: "#/responses/NotFound"
+
+  /lookups/technicians/{technicianId}/:
+    get:
+      summary: Query a technician record
+      description: Query a technician record by  identifier
+      operationId: queryTechnicianById
+      tags:
+        - lookups
+      parameters:
+        - $ref: "#/parameters/header.Request-Id"
+        - $ref: "#/parameters/header.Subscription-Id"
+        - $ref: "#/parameters/header.Authorization"
+        - $ref: "#/parameters/path.technicianId"
+      produces:
+        - application/json
+      responses:
+        200:
+          $ref: "#/responses/Technician"
+        400:
+          $ref: "#/responses/BadRequest"
+        401:
+          $ref: "#/responses/Unauthorized"
+        403:
+          $ref: "#/responses/Forbidden"
+        404:
+          $ref: "#/responses/NotFound"
+
+parameters:
+  path.repairOrderId:
+    name: repairOrderId
+    in: path
+    description: The repair order identifier
+    required: true
+    type: string
+
+  path.serviceLineId:
+    name: serviceLineId
+    in: path
+    description: The service line identifier
+    required: true
+    type: string
+
+  path.dispatchCodeId:
+    name: dispatchCodeId
+    in: path
+    description: The dispatch code identifier
+    required: true
+    type: string
+
+  path.laborTypeId:
+    name: laborTypeId
+    in: path
+    description: The labor type identifier
+    required: true
+    type: string
+
+  path.technicianId:
+    name: technicianId
+    in: path
+    description: The technician identifier
+    required: true
+    type: string
+
+  path.serviceAdvisorId:
+    name: serviceAdvisorId
+    in: path
+    description: The service advisor identifier
+    required: true
+    type: string
+
+  body.createRepairOrder:
+    name: createRepairOrder
+    in: body
+    description: The repair order information
+    required: true
+    schema:
+      $ref: "#/definitions/CreateRepairOrder"
+
+  body.updateRepairOrder:
+    name: updateRepairOrderRequest
+    in: body
+    description: The repair order information
+    required: true
+    schema:
+      $ref: "#/definitions/UpdateRepairOrder"
+
+  body.addServiceLine:
+    name: createServiceLine
+    in: body
+    description: The service line information
+    required: true
+    schema:
+      $ref: "#/definitions/CreateUpdateServiceLine"
+
+  body.updateServiceLine:
+    name: updateServiceLine
+    in: body
+    description: The service line
+    required: true
+    schema:
+      $ref: "#/definitions/CreateUpdateServiceLine"
+
+  query.description:
+    name: description
+    in: query
+    description: Description search text
+    type: string
+
+  query.dispatchCodeDescription:
+    name: dispatchCodeDescription
+    in: query
+    description: Dispatch code description search text
+    type: string
+
+  query.serviceAdvisorId:
+    name: serviceAdvisorId
+    in: query
+    required: true
+    type: string
+    description: The unique identifier of the assigned ServiceAdvisor
+
+  # Common Parameters (see common.yaml)
+  header.Request-Id:
+    name: Request-Id
+    in: header
+    required: false
+    type: string
+    format: guid
+    description: | 
+      A correlation ID that should be returned back to the caller to indicate the return of the 
+      given request
+  
+  header.Subscription-Id:
+    name: Subscription-Id
+    in: header
+    required: true
+    type: string
+    format: guid
+    description: The Fortellis Marketplace subscription identifier between a user entity and the solution. 
+      For sample responses use the Subscription-Id 'test'.
+  
+  header.Authorization:
+    name: Authorization
+    in: header
+    required: true
+    type: string
+    description: Provides authorization to access Fortellis APIs. For calling a Fortellis Provider, 
+      this must be an OAuth 2.0 token issued by the Fortellis authorization server, but you may call 
+      the simulator platform with Basic Authorization using your API key and secret.
+
+  header.ETag:
+    name: ETag
+    in: header
+    required: true
+    type: string
+    description: | 
+      The computed checksum of the resource used for optimistic concurrency
+      control
+
+  header.If-Match:
+    name: If-Match
+    in: header
+    required: true
+    type: string
+    description: |
+      Makes the resource update request conditional.  The checksum value specified with If-Match 
+      must match the current ETag value of the resource.
+
+responses:
+  # Resources
+  LaborType:
+    description: OK
+    headers:
+      Request-Id:
+        type: string
+    schema:
+      $ref: "#/definitions/LaborType"
+
+  RepairOrder:
+    description: OK
+    headers:
+      Request-Id:
+        type: string
+      ETag:
+        type: string
+        description: The computed checksum of the resource
+    schema:
+      $ref: "#/definitions/RepairOrder"
+
+  ServiceLine:
+    description: OK
+    headers:
+      Request-Id:
+        type: string
+      ETag:
+        type: string
+        description: The computed checksum of the resource
+    schema:
+      $ref: "#/definitions/ServiceLine"
+
+  DispatchCode:
+    description: OK
+    headers:
+      Request-Id:
+        type: string
+    schema:
+      $ref: "#/definitions/DispatchCode"
+
+  Technician:
+    description: OK
+    headers:
+      Request-Id:
+        type: string
+    schema:
+      $ref: "#/definitions/Technician"
+
+  ServiceAdvisor:
+    description: OK
+    headers:
+      Request-Id:
+        type: string
+    schema:
+      $ref: "#/definitions/ServiceAdvisor"
+
+  # Collections
+  DispatchCodeCollection:
+    description: OK
+    headers:
+      Request-Id:
+        type: string
+    schema:
+      $ref: "#/definitions/DispatchCodeCollection"
+
+  DispatchMakeCodeCollection:
+    description: OK
+    headers:
+      Request-Id:
+        type: string
+    schema:
+      $ref: "#/definitions/DispatchMakeCodeCollection"
+
+  LaborTypeCollection:
+    description: OK
+    headers:
+      Request-Id:
+        type: string
+    schema:
+      $ref: "#/definitions/LaborTypeCollection"
+
+  RepairOrderCollection:
+    description: OK
+    headers:
+      Request-Id:
+        type: string
+    schema:
+      $ref: "#/definitions/RepairOrderCollection"
+
+  TechnicianCollection:
+    description: OK
+    headers:
+      Request-Id:
+        type: string
+    schema:
+      $ref: "#/definitions/TechnicianCollection"
+
+  ServiceAdvisorCollection:
+    description: OK
+    headers:
+      Request-Id:
+        type: string
+    schema:
+      $ref: "#/definitions/ServiceAdvisorCollection"
+
+  # Common Responses (see common.yaml)
+  Success:
+    description: 204 - No Content
+    headers:
+      Request-Id:
+        type: string
+      ETag:
+        type: string
+        description: The computed checksum of the resource
+
+  BadRequest:
+    description: 400 - Bad Request
+    headers:
+      Request-Id:
+        type: string
+    schema:
+      $ref: "#/definitions/ErrorResponse"
+
+  Unauthorized:
+    description: 401 - Unauthorized
+    headers:
+      Request-Id:
+        type: string
+    schema:
+      $ref: "#/definitions/ErrorResponse"
+
+  Forbidden:
+    description: 403 - Forbidden
+    headers:
+      Request-Id:
+        type: string
+    schema:
+      $ref: "#/definitions/ErrorResponse"
+
+  NotFound:
+    description: 404 - Not Found
+    headers:
+      Request-Id:
+        type: string
+    schema:
+      $ref: "#/definitions/ErrorResponse"
+
+definitions:
+  # Resources
+  RepairOrder:
+    type: object
+    properties:
+      repairOrderId:
+        type: string
+        description: The repair order's unique identifier
+      blockIVRFlag:
+        type: boolean
+        description: Flag that indicates Integrated Voice Response (IVR) or Customer Touch messages
+      comments:
+        type: string
+        description: Repair order comments
+      customerHref:
+        type: string
+        description: The hyperlink to the Customer associated resource
+      customerContactInfo:
+        type: string
+        description: |
+          Phone number or e-mail address given during write-up in which to contact the customer. 
+          Phone numbers can include an extension.  This takes priority over contact information 
+          recorded in the Customer resource located at customerHref.
+      vehicleHref:
+        type: string
+        description: The hyperlink to the Vehicle associated resource
+      dispatchMakeCode:
+        type: string
+        description: Make code required for dispatching
+      dropOff:
+        $ref: "#/definitions/DropOff"
+        description: Customer drop off details.  Only valid when transportType is set to SHUTTLE.
+      pickUp:
+        $ref: "#/definitions/PickUp"
+        description: Customer pick up details.  Only valid when transportType is set to SHUTTLE.
+      estimate:
+        $ref: "#/definitions/Estimate"
+        description: The authorized service estimate for the repair order
+      mileageIn:
+        $ref: "#/definitions/Measurement"
+        description: Mileage measurement when the vehicle arrived for service
+      poNumber:
+        type: string
+        description: Purchase order number.
+      promiseDateTime:
+        type: string
+        description: | 
+          Promised date and time (in format YYYY-MM-DDTHH:MM:SS) for returning the vehicle back to 
+          the customer
+      remarks:
+        type: string
+        description: Remarks
+      serviceAdvisorId:
+        type: string
+        description: Service advisor identifier
+      serviceLineItems:
+        type: array
+        items:
+          $ref: "#/definitions/ServiceLine"
+        description: The service line items
+      tagNum:
+        type: string
+        description: Tag number assigned to the vehicle while it is being repaired
+      transportType:
+        type: string
+        enum:
+          - CAB
+          - LOANER
+          - RENTAL
+          - SHUTTLE
+          - DROPOFF
+          - WAITER
+        description: Transportation type
+      status:
+        $ref: "#/definitions/Status"
+        description: Status code and description
+      links:
+        $ref: "#/definitions/RepairOrderLinks"
+        description: The hypermedia links associated with the repair order resource
+    required:
+      - repairOrderId
+      - customerHref
+      - customerContactInfo
+      - vehicleHref
+      - dispatchMakeCode
+      - mileageIn
+      - promiseDateTime
+      - serviceAdvisorId
+      - tagNum
+      - serviceLineItems
+      - status
+      - links
+    example:
+      repairOrderId: "5656"
+      status:
+        code: "I93"
+        description: "PREASSIGNED"
+      links:
+        self:
+          href: "https://api.fortellis.io/cdkdrive/service/v1/repair-orders/123"
+      blockIVRFlag: false
+      comments: "Use synthetic 5W-20 engine oil"
+      customerHref: "https://api.fortellis.io/cdkdrive/crm/v1/customers/800245"
+      customerContactInfo: "8302852330"
+      vehicleHref: "https://api.fortellis.io/cdkdrive/service/vehicles/4G263088"
+      dispatchMakeCode: "C"
+      estimate:
+        estimateOverrideFlag: false
+        authorized: 200.00
+        labor: 80.00
+        parts: 40.00
+        misc: 30.00
+        lube: 30.00
+        sublet: 10.00
+        tax: 10.00
+      mileageIn:
+        value: 87665
+        units: "MI"
+      poNumber: "5334"
+      promiseDateTime: "2018-08-12T20:17:45"
+      remarks: "sample remarks"
+      serviceAdvisorId: "6164"
+      tagNum: "3088"
+      transportType: "WAITER"
+      serviceLineItems:
+        - serviceLineId: "A111"
+          cause: "Braking issue"
+          comebackFlag: false
+          dispatchCode: "S104"
+          estimatedDuration: 1.5
+          laborEstimate: 10.00
+          laborType: "CEC"
+          lubeEstimate: 10.00
+          miscEstimate: 10.00
+          partsEstimate: 10.00
+          serviceEstimate: 10.00
+          status:
+            code: "I93"
+            description: "PREASSIGNED"
+          serviceRequest: "CUSTOMER STATES THERE IS A CLUNKING SOUND IN FRONT END OVER BUMPS"
+          subletEstimate: 10.00
+          taxEstimate: 10.00
+          technicianId: "253"
+          laborOperations:
+            - forceShopChargeFlag: false
+              laborType: "CEC"
+              opCode: "SSTR"
+              opCodeDesc: "SUSPENSION AND STEERING REPAIR"
+              soldHours: 0.20
+              saleAmount: 7.00
+              saleOverrideFlag: false
+              includedParts:
+                - partRefId: "1"
+                  fixedSaleFlag: false
+                  includesCoreFlag: false
+                  mfrCode: "FR"
+                  partNumber: "P9488"
+                  partNumberDescription: "CLUTCH PLATE"
+                  partQty: 1
+                  saleAmount: 30.00
+                - partRefId: "2"
+                  fixedSaleFlag: false
+                  includesCoreFlag: false
+                  mfrCode: "FR"
+                  partNumber: "7488"
+                  partNumberDescription: "BRAKEPAD"
+                  partQty: 2
+                  saleAmount: 50.00
+
+  PickUp:
+    type: object
+    properties:
+      dateTime:
+        type: string
+        description: The date and time of pickup in format YYYY-MM-DDTHH:MM:SS
+      address:
+        type: string
+        description: Address of pickup
+      city:
+        type: string
+        description: City of pickup
+      note:
+        type: string
+        description: Note
+      phone:
+        type: string
+        description: Phone number for pickup
+      vanNumber:
+        type: string
+        description: Van number
+    example:
+      dateTime: "2018-08-12T20:17:45"
+      address: "678 Montgomery St"
+      city: "Jersey City"
+      note: "Call before pickup"
+      phone: "830-285-2330"
+      vanNumber: "830-285-2330"
+
+  DropOff:
+    type: object
+    properties:
+      dateTime:
+        type: string
+        description: The date and time for dropoff in format YYYY-MM-DDTHH:MM:SS
+      address:
+        type: string
+        description: Address at which the customer will be dropped off
+      city:
+        type: string
+        description: City in which the customer will be dropped off
+      note:
+        type: string
+        description: Additional notes regarding the customer drop off request
+      phone:
+        type: string
+        description: Phone number where the customer can be reached
+      vanNumber:
+        type: string
+        description: Van number used to drop off the customer
+    example:
+      dateTime: "2018-08-12T20:19:45"
+      address: "678 Montgomery St"
+      city: "Jersey City"
+      phone: "8302852330"
+      vanNumber: "830-285-2330"
+
+  ServiceLine:
+    properties:
+      serviceLineId:
+        type: string
+        description: Unique key for a service request (line)
+      serviceRequest:
+        type: string
+        description: Service request description
+      cause:
+        type: string
+        description: Description of what caused the customer's complaint
+      comebackFlag:
+        type: boolean
+        description: Flag that indicates if the repair line is a comeback
+      dispatchCode:
+        type: string
+        description: | 
+          Dispatch code. Note that this field is the code that comes after the first character of 
+          the item ids of the DISPATCH-CODES file. I.E. The DispatchMakeCode and linDispatchCode 
+          are joined together to validate the dispatch code in the DISPATCH-CODES file.
+      estimatedDuration:
+        type: number
+        description: Estimated duration of the service request (line)
+      technicianId:
+        type: string
+        description: Technician identifier
+      laborOperations:
+        type: array
+        items:
+          $ref: "#/definitions/LaborOperation"
+      laborType:
+        type: string
+        description: Labor type code
+      laborEstimate:
+        type: number
+        description: Total labor estimate for the service request (line)
+      lubeEstimate:
+        type: number
+        description: Total lube estimate for the service request (line)
+      miscEstimate:
+        type: number
+        description: Total miscellaneous estimate for the service request (line)
+      partsEstimate:
+        type: number
+        description: Total parts estimate for the service request (line)
+      serviceEstimate:
+        type: number
+        description: Total service estimate for the service request (line)
+      subletEstimate:
+        type: number
+        description: Total sublet estimate for the service request (line)
+      taxEstimate:
+        type: number
+        description: Total tax estimate for the service request (line)
+      status:
+        $ref: "#/definitions/Status"
+        description: Service line status code and description
+    required:
+      - serviceLineId
+      - serviceRequest
+      - laborOperations
+      - dispatchCode
+      - estimatedDuration
+    example:
+      serviceLineId: "123"
+      cause: "Braking issue"
+      comebackFlag: false
+      dispatchCode: "S104"
+      estimatedDuration: 1.5
+      laborEstimate: 10.00
+      laborType: "CEC"
+      lubeEstimate: 10.00
+      miscEstimate: 10.00
+      partsEstimate: 10.00
+      serviceEstimate: 10.00
+      status:
+        code: "I93"
+        description: "PREASSIGNED"
+      serviceRequest: "CUSTOMER STATES THERE IS A CLUNKING SOUND IN FRONT END OVER BUMPS"
+      subletEstimate: 10.00
+      taxEstimate: 10.00
+      technicianId: "253"
+      laborOperations:
+        - laborOperationId: "11"
+          forceShopChargeFlag: false
+          laborType: "CEC"
+          opCode: "SSTR"
+          opCodeDesc: "SUSPENSION AND STEERING REPAIR"
+          soldHours: 0.20
+          saleAmount: 7.00
+          saleOverrideFlag: false
+          includedParts:
+            - partRefId: "1"
+              fixedSaleFlag: false
+              includesCoreFlag: false
+              mfrCode: "FR"
+              partNumber: "P9488"
+              partNumberDescription: "CLUTCH PLATE"
+              partQty: 1
+              saleAmount: 30.00
+            - partRefId: "2"
+              fixedSaleFlag: false
+              includesCoreFlag: false
+              mfrCode: "FR"
+              partNumber: "7488"
+              partNumberDescription: "BRAKEPAD"
+              partQty: 2
+              saleAmount: 50.00
+
+  LaborOperation:
+    properties:
+      laborOperationId:
+        type: string
+        description: Labor operation unique identifier
+      opCode:
+        type: string
+        description: Labor operation code
+      opCodeDesc:
+        type: string
+        description: Labor operation code description
+      laborType:
+        type: string
+        description: Labor type code
+      includedParts:
+        type: array
+        items:
+          $ref: "#/definitions/PartRef"
+        description: | 
+          The included parts specified to be used or consumed as part of the 
+          specification
+      saleAmount:
+        type: number
+        description: | 
+          Sale amount. Required if SaleOverride is true. Ignored if false.
+      saleOverrideFlag:
+        type: boolean
+        description: |
+          Flag that indicates if the sale amount overrides any calculated 
+          amount
+      shopCharge:
+        type: number
+        description: | 
+          Shop charge amount that overrides a calculated shop charge.  Required if ForceShopCharge 
+          is true. Ignored if false.
+      forceShopChargeFlag:
+        type: boolean
+        description: | 
+          Flag that indicates if the shop charge overrides any calculated amount
+      soldHours:
+        type: number
+        description: Sold hours. Required.
+    required:
+      - forceShopChargeFlag
+      - opCode
+      - opCodeDesc
+      - saleOverrideFlag
+      - soldHours
+      - saleAmount
+    example:
+      laborOperationId: "11"
+      forceShopChargeFlag: false
+      laborType: "CEC"
+      opCode: "SSTR"
+      opCodeDesc: "CLUTCH REPAIR"
+      soldHours: 0.20
+      saleAmount: 7.00
+      saleOverrideFlag: false
+      includedParts:
+        - partRefId: "1"
+          fixedSaleFlag: false
+          includesCoreFlag: false
+          mfrCode: "FR"
+          partNumber: "P9488"
+          partNumberDescription: "CLUTCH PLATE"
+          partQty: 4
+          saleAmount: 30.00
+        - partRefId: "2"
+          fixedSaleFlag: false
+          includesCoreFlag: false
+          mfrCode: "FR"
+          partNumber: "7488"
+          partNumberDescription: "RETAINER CIRCLIP"
+          partQty: 1
+          saleAmount: 5.00
+
+  PartRef:
+    properties:
+      partRefId:
+        type: string
+        description: Part reference unique identifier
+      partNumber:
+        type: string
+        description: Preassigned part number
+      partNumberDescription:
+        type: string
+        description: Part number description
+      mfrCode:
+        type: string
+        description: Manufacturer code
+      partQty:
+        type: number
+        description: Part quantity
+      saleAmount:
+        type: number
+        description: Sale amount
+      fixedSaleFlag:
+        type: boolean
+        description: | 
+          Flag that indicates if the unit sale amount is a fixed price. If so, the Parts 
+          application will not re-price the part.
+      includesCoreFlag:
+        type: boolean
+        description:  |
+          Flag that indicates if the core amount is included in the unit sale amount
+    required:
+      - partNumber
+      - partNumberDescription
+      - mfrCode
+      - partQty
+      - saleAmount
+      - fixedSaleFlag
+      - includesCoreFlag
+    example:
+      partRefId: "1"
+      fixedSaleFlag: false
+      includesCoreFlag: false
+      mfrCode: "FR"
+      partNumber: "P9488"
+      partNumberDescription: "CLUTCH PLATE"
+      partQty: 1
+      saleAmount: 30.00
+
+  Estimate:
+    type: object
+    properties:
+      estimateOverrideFlag:
+        type: boolean
+        description: | 
+          Indicates whether the RO level estimates have been 
+          overridden
+      authorized:
+        type: number
+        description: | 
+          The authorized service estimate for the repair order
+      labor:
+        type: number
+        description: Total labor estimate for the repair order
+      parts:
+        type: number
+        description: Total parts estimate for the repair order
+      misc:
+        type: number
+        description: Total miscellaneous estimate for the repair order
+      lube:
+        type: number
+        description: Total lube estimate for the repair order
+      sublet:
+        type: number
+        description: Total sublet estimate for the repair order
+      tax:
+        type: number
+        description: Total tax estimate for the repairs
+    example:
+      estimateOverrideFlag: false
+      authorized: 200.00
+      labor: 80.00
+      parts: 40.00
+      misc: 30.00
+      lube: 30.00
+      sublet: 10.00
+      tax: 10.00
+
+  Status:
+    properties:
+      code:
+        type: string
+        description: The status code
+      description:
+        type: string
+        description: Description of the status
+    example:
+      code: "I93"
+      description: "PREASSIGNED"
+
+  RepairOrderLinks:
+    type: object
+    properties:
+      self:
+        $ref: "#/definitions/LinkDescriptionObject"
+        description: The canonical link to the repair order resource
+    required:
+      - self
+    example:
+      self:
+        href: "https://api.fortellis.io/cdkdrive/service/v1/repair-orders/123"
+
+  RepairOrderSummary:
+    type: object
+    properties:
+      repairOrderId:
+        type: string
+        description: The repair order's unique identifier
+      vehicleHref:
+        type: string
+        description: The hyperlink to the Vehicle associated resource
+      tagNum:
+        type: string
+        description: Tag number assigned to the vehicle while it is being repaired
+      customerHref:
+        type: string
+        description: The hyperlink to the Customer associated resource
+      customerContactInfo:
+        type: string
+        description: |
+          Phone number or e-mail address given during write-up in which to contact the customer. 
+          Phone numbers can include an extension.  This takes priority over contact information 
+          recorded in the Customer resource located at customerHref.
+      comments:
+        type: string
+        description: Customer comments
+      serviceAdvisorId:
+        type: string
+        description: Service advisor number
+      remarks:
+        type: string
+        description: Service advisor remarks
+      serviceLineSummary:
+        type: array
+        items:
+          $ref: "#/definitions/ServiceLineSummary"
+        description: The service line items summary
+      repairOrderEstimate:
+        $ref: "#/definitions/EstimateSummary"
+        description: The authorized estimate for the repair order
+      promiseDateTime:
+        type: string
+        description: |
+          Promised date and time (in format YYYY-MM-DDTHH:MM:SS) for returning the vehicle back 
+          to the customer.
+      status:
+        $ref: "#/definitions/Status"
+        description: Repair Order status code and description
+      links:
+        $ref: "#/definitions/RepairOrderLinks"
+        description: The hypermedia links of the repair order resource
+    required:
+      - repairOrderId
+      - vehicleHref
+      - tagNum
+      - customerHref
+      - customerContactInfo
+      - comments
+      - serviceAdvisorId
+      - remarks
+      - serviceLineSummary
+      - promiseDateTime
+      - status
+      - links
+    example:
+      repairOrderId: "67307"
+      vehicleHref: "https://api.fortellis.io/cdkdrive/service/vehicles/4G263088"
+      customerHref: "https://api.fortellis.io/cdkdrive/crm/v1/customers/800245"
+      status:
+        code: "I93"
+        description: "PREASSIGNED"
+      serviceAdvisorId: "3354"
+      serviceLineSummary:
+        - serviceRequest: "CUSTOMER STATES THERE IS A CLUNKING SOUND IN FRONT END OVER BUMPS"
+          estimatedDuration: 1.5
+      tagNum: "9898"
+      repairOrderEstimate:
+        authorized: 50.00
+      customerContactInfo: "8302852330"
+      promiseDateTime: "2018-08-12T20:17:45"
+      comments: "Use synthetic 5W-20 engine oil"
+      remarks: "sample remarks"
+      links:
+        self:
+          href: "https://api.fortellis.io/cdkdrive/service/v1/repair-orders/123"
+
+  ServiceLineSummary:
+    properties:
+      serviceRequest:
+        type: string
+        description: Service request description
+      estimatedDuration:
+        type: number
+        description: Estimated duration of the service request (line).  Required for Dispatching.
+    example:
+      serviceRequest: "CUSTOMER STATES THERE IS A CLUNKING SOUND IN FRONT END OVER BUMPS"
+      estimatedDuration: 1.5
+
+  EstimateSummary:
+    type: object
+    properties:
+      authorized:
+        type: number
+        description: The authorized estimate for the repair order
+    example:
+      authorized: 50.00
+
+  DispatchCode:
+    type: object
+    properties:
+      dispatchCodeId:
+        type: string
+        description: Dispatch code
+      estimatedDuration:
+        type: number
+        description: Estimated duration of a job in tenths of an hour
+      description:
+        type: string
+        description: Dispatch code description
+    required:
+      - dispatchCodeId
+    example:
+      dispatchCodeId: "S102"
+      estimatedDuration: 2.5
+      description: "General Diagnostics"
+
+  DispatchMakeCode:
+    type: object
+    properties:
+      dispatchMakeCode:
+        type: string
+        description: Dispatch make code
+      makeAbbreviations:
+        type: array
+        items:
+          $ref: "#/definitions/MakeAbbreviation"
+          description: Array of abbreviations
+    example:
+      dispatchMakeCode: "C"
+      makeAbbreviations:
+        - index: 1
+          abbreviation: "AB"
+        - index: 2
+          abbreviation: "CD"
+
+  MakeAbbreviation:
+    type: object
+    properties:
+      index:
+        type: integer
+        description: Index number
+      abbreviation:
+        type: string
+        description: Make abbreviation associated with a dispatch make code
+    example:
+      index: 1
+      abbreviation: "AB"
+
+  LaborType:
+    properties:
+      laborTypeId:
+        type: string
+        description: The labor type identifier
+      description:
+        type: string
+        description: Labor type description
+    required:
+      - laborTypeId
+    example:
+      laborTypeId: "CEC"
+      description: "Customer Pay - Primary"
+
+  ServiceAdvisor:
+    properties:
+      serviceAdvisorId:
+        type: string
+        description: Service advisor identifier
+      name:
+        type: string
+        description: Service advisor's Name
+    required:
+      - serviceAdvisorId
+    example:
+      serviceAdvisorId: "123"
+      name: "Johnson, Mitchell A"
+
+  Technician:
+    properties:
+      technicianId:
+        type: string
+        description: Technician identifier
+      name:
+        type: string
+        description: Technician name
+    required:
+      - technicianId
+    example:
+      technicianId: "123"
+      name: "Lee, Nicholas A"
+  
+  Workorder:
+    properties:
+      printWorkorder:
+        type: boolean
+        description: Flag indicates if a workorder should be printed for a new Repair Order. 
+                    Note if RO Printing Optionial Flag in DMS is set to N, then Drive will automatically 
+                    change this printWorkorder flag to true.
+      workorderPrinter:
+        type: string
+        description: Printer number to use for printing the work order
+      workorderCopies: 
+        type: string
+        description: Number of copies of the workorder to print
+      partsPrinter:
+        type: string
+        description: Name of the printer to use for printing the pre-assigned parts report. 
+    example:
+      printWorkorder: true
+      workorderPrinter: "1"
+      workorderCopies: "1"
+      partsPrinter: "L99999"
+
+  # Collections
+  DispatchCodeCollection:
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: "#/definitions/DispatchCode"
+    required:
+      - items
+    example:
+      items:
+        - dispatchCodeId: "S102"
+          estimatedDuration: 2.5
+          description: "General diagnostics"
+        - dispatchCodeId: "S104"
+          estimatedDuration: 1.5
+          description: "Computer diagnostics"
+
+  DispatchMakeCodeCollection:
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: "#/definitions/DispatchMakeCode"
+    required:
+      - items
+    example:
+      items:
+        - dispatchMakeCode: "C"
+          makeAbbreviations:
+            - index: 1
+              abbreviation: "AB"
+            - index: 2
+              abbreviation: "CD"
+        - dispatchMakeCode: "D"
+          makeAbbreviations:
+            - index: 1
+              abbreviation: "AB"
+            - index: 2
+              abbreviation: "CD"
+
+  LaborTypeCollection:
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: "#/definitions/LaborType"
+    required:
+      - items
+    example:
+      items:
+        - laborTypeId: "CEC"
+          description: "Customer Pay - Primary"
+        - laborTypeId: "CM"
+          description: "Customer Pay - Discount"
+
+  RepairOrderCollection:
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: "#/definitions/RepairOrderSummary"
+    required:
+      - items
+    example:
+      items:
+        - repairOrderId: "123"
+          vehicleHref: "https://api.fortellis.io/cdkdrive/service/vehicles/4G263088"
+          customerHref: "https://api.fortellis.io/cdkdrive/crm/v1/customers/800245"
+          status:
+            code: "I93"
+            description: "PREASSIGNED"
+          serviceAdvisorId: "3354"
+          serviceLineSummary:
+            - serviceRequest: "CUSTOMER STATES THERE IS A CLUNKING SOUND IN FRONT END OVER BUMPS"
+              estimatedDuration: 1.5
+          tagNum: "9898"
+          repairOrderEstimate:
+            authorized: 50.00
+          customerContactInfo: "8302852330"
+          promiseDateTime: "2018-08-12T20:17:45"
+          comments: "Use synthetic 5W-20 engine oil"
+          remarks: "sample remarks"
+          links:
+            self:
+              href: "https://api.fortellis.io/cdkdrive/service/v1/repair-orders/123"
+
+  TechnicianCollection:
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: "#/definitions/Technician"
+    required:
+      - items
+    example:
+      items:
+        - technicianId: "123"
+          name: "Lee, Nicholas A"
+        - technicianId: "456"
+          name: "Clarke, Micheal T"
+
+  ServiceAdvisorCollection:
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: "#/definitions/ServiceAdvisor"
+    required:
+      - items
+    example:
+      items:
+        - serviceAdvisorId: "123"
+          name: "Patel, Nitin B"
+        - serviceAdvisorId: "456"
+          name: "Johnson, Mitchell A"
+
+  # Requests
+  CreateRepairOrder:
+    type: object
+    properties:
+      appointmentId:
+        type: string
+        description: The appointment that will be rolled into the repair order
+      blockIVRFlag:
+        type: boolean
+        description: Flag that indicates Integrated Voice Response (IVR) or Customer Touch messages
+      comments:
+        type: string
+        description: Repair order comments
+      customerHref:
+        type: string
+        description: The hyperlink to the Customer associated resource
+      customerContactInfo:
+        type: string
+        description: |
+          Phone number or e-mail address given during write-up in which to contact the customer. 
+          Phone numbers can include an extension.  This takes priority over contact information 
+          recorded in the Customer resource located at customerHref.
+      vehicleHref:
+        type: string
+        description: The hyperlink to the Vehicle associated resource
+      dispatchMakeCode:
+        type: string
+        description: Make code required for dispatching.
+      dropOff:
+        $ref: "#/definitions/DropOff"
+        description: Customer drop off details.  Only valid when transportType is set to SHUTTLE.
+      pickUp:
+        $ref: "#/definitions/PickUp"
+        description: Customer pick up details.  Only valid when transportType is set to SHUTTLE.
+      estimate:
+        $ref: "#/definitions/CreateUpdateEstimate"
+        description: The authorized service estimate for the repair order
+      mileageIn:
+        $ref: "#/definitions/Measurement"
+        description: Mileage measurement when the vehicle arrived for service
+      poNumber:
+        type: string
+        description: Purchase order number
+      promiseDateTime:
+        type: string
+        description: | 
+          Promised date and time (in format YYYY-MM-DDTHH:MM:SS) of when the requested services 
+          will be complete 
+      remarks:
+        type: string
+        description: Remarks
+      serviceAdvisorId:
+        type: string
+        description: Service advisor number
+      serviceLineItems:
+        type: array
+        items:
+          $ref: "#/definitions/CreateUpdateServiceLine"
+        description: The service line items
+      tagNum:
+        type: string
+        description: Tag number assigned to the vehicle while it is being repaired
+      transportType:
+        type: string
+        enum:
+          - CAB
+          - LOANER
+          - RENTAL
+          - SHUTTLE
+          - DROPOFF
+          - WAITER
+        description: Transportation type
+      workorder:
+        $ref: "#/definitions/Workorder"
+    required:
+      - customerHref
+      - customerContactInfo
+      - vehicleHref
+      - mileageIn
+      - promiseDateTime
+      - serviceAdvisorId
+      - serviceLineItems
+      - tagNum
+    example:
+      appointmentId: "8888"
+      blockIVRFlag: false
+      comments: "Use synthetic 5W-20 engine oil"
+      customerHref: "https://api.fortellis.io/cdkdrive/crm/v1/customers/800245"
+      vehicleHref: "https://api.fortellis.io/cdkdrive/service/vehicles/4G263088"
+      dispatchMakeCode: "C"
+      customerContactInfo: "8302852330"
+      dropOff:
+        dateTime: "2018-08-12T20:13:45"
+        address: "678 Montgomery St"
+        city: "Jersey City"
+        note: "Call before pickup"
+        phone: "8302852330"
+        vanNumber: "8302852330"
+      estimate:
+        authorized: 200.00
+        labor: 80.00
+        parts: 40.00
+        misc: 30.00
+        lube: 30.00
+        sublet: 10.00
+        tax: 10.00
+      mileageIn:
+        value: 87665
+        units: "MI"
+      pickUp:
+        dateTime: "2018-08-12T20:19:45"
+        address: "678 Montgomery St"
+        city: "Jersey City"
+        note: "Call before pickup"
+        phone: "8302852330"
+        vanNumber: "8302852330"
+      promiseDateTime: "2018-08-12T20:17:45"
+      serviceAdvisorId: "6164"
+      tagNum: "3088"
+      remarks: "sample remarks"
+      transportType: "DROPOFF"
+      serviceLineItems:
+        - cause: "Braking issue"
+          comebackFlag: false
+          dispatchCode: "S104"
+          estimatedDuration: 1.5
+          laborEstimate: 10.00
+          laborType: "CEC"
+          lubeEstimate: 10.00
+          miscEstimate: 10.00
+          partsEstimate: 10.00
+          serviceEstimate: 10.00
+          serviceRequest: "CUSTOMER STATES THERE IS A CLUNKING SOUND IN FRONT END OVER BUMPS"
+          subletEstimate: 10.00
+          taxEstimate: 10.00
+          technicianId: "253"
+          laborOperations:
+            - forceShopChargeFlag: false
+              laborType: "CEC"
+              opCode: "SSTR"
+              opCodeDesc: "SUSPENSION AND STEERING REPAIR"
+              soldHours: 0.20
+              saleAmount: 7.00
+              saleOverrideFlag: false
+              includedParts:
+                - fixedSaleFlag: false
+                  includesCoreFlag: false
+                  mfrCode: "FR"
+                  partNumber: "P9488"
+                  partNumberDescription: "CLUTCH PLATE"
+                  partQty: 1
+                  saleAmount: 30.00
+                - fixedSaleFlag: false
+                  includesCoreFlag: false
+                  mfrCode: "FR"
+                  partNumber: "7488"
+                  partNumberDescription: "BRAKEPAD"
+                  partQty: 2
+                  saleAmount: 50.00
+      workorder:
+        printWorkorder: true
+        workorderPrinter: "1"
+        workorderCopies: "1"
+        partsPrinter: "L99999"
+
+  UpdateRepairOrder:
+    type: object
+    properties:
+      blockIVRFlag:
+        type: boolean
+        description: Flag that indicates integrated voice response (IVR) or Customer Touch messages
+      comments:
+        type: string
+        description: Comments
+      customerHref:
+        type: string
+        description: The hyperlink to the associated Customer resource
+      customerContactInfo:
+        type: string
+        description: |
+          Phone number or e-mail address given during write-up in which to contact the customer. 
+          Phone numbers can include an extension.  This takes priority over contact information 
+          recorded in the Customer resource located at customerHref.
+      vehicleHref:
+        type: string
+        description: The hyperlink to the associated Vehicle resource
+      dropOff:
+        $ref: "#/definitions/DropOff"
+        description: Customer drop off details.  Only valid when transportType is set to SHUTTLE.
+      pickUp:
+        $ref: "#/definitions/PickUp"
+        description: Customer pick up details.  Only valid when transportType is set to SHUTTLE.
+      estimate:
+        $ref: "#/definitions/CreateUpdateEstimate"
+        description: The authorized service estimate for the repair order.
+      mileageIn:
+        $ref: "#/definitions/Measurement"
+        description: Vehicle mileage measurement on arrival
+      poNumber:
+        type: string
+        description: Purchase order number
+      promiseDateTime:
+        type: string
+        description: | 
+          Promised date and time (in format YYYY-MM-DDTHH:MM:SS) for returning the vehicle back to 
+          the customer
+      remarks:
+        type: string
+        description: Remarks
+      serviceAdvisorId:
+        type: string
+        description: Service advisor identifier
+      tagNum:
+        type: string
+        description: Tag number assigned to the vehicle while it is being repaired
+      transportType:
+        type: string
+        enum:
+          - CAB
+          - LOANER
+          - RENTAL
+          - SHUTTLE
+          - DROPOFF
+          - WAITER
+        description: Transportation type
+      workorder:
+        $ref: "#/definitions/Workorder"
+    required:
+      - customerHref
+      - customerContactInfo
+      - vehicleHref
+      - mileageIn
+      - promiseDateTime
+      - serviceAdvisorId
+      - tagNum
+    example:
+      blockIVRFlag: false
+      comments: "Use synthetic 5W-20 engine oil"
+      customerHref: "https://api.fortellis.io/cdkdrive/crm/v1/customers/800245"
+      vehicleHref: "https://api.fortellis.io/cdkdrive/service/vehicles/4G263088"
+      customerContactInfo: "8302852330"
+      dropOff:
+        dateTime: "2018-08-12T20:13:45"
+        address: "678 Montgomery St"
+        city: "Jersey City"
+        note: "Call before pickup"
+        phone: "8302852330"
+        vanNumber: "8302852330"
+      estimate:
+        authorized: 200.00
+        labor: 80.00
+        parts: 40.00
+        misc: 30.00
+        lube: 30.00
+        sublet: 10.00
+        tax: 10.00
+      mileageIn:
+        value: 87665
+        units: "MI"
+      pickUp:
+        dateTime: "2018-08-12T20:19:45"
+        address: "678 Montgomery St"
+        city: "Jersey City"
+        note: "Call before pickup"
+        phone: "8302852330"
+        vanNumber: "8302852330"
+      promiseDateTime: "2018-08-12T20:17:45"
+      serviceAdvisorId: "6164"
+      tagNum: "3088"
+      remarks: "sample remarks"
+      transportType: "DROPOFF"
+      workorder:
+        printWorkorder: true
+        workorderPrinter: "1"
+        workorderCopies: "1"
+        partsPrinter: "L99999"
+
+  CreateUpdateEstimate:
+    type: object
+    properties:
+      authorized:
+        type: number
+        description: The authorized service estimate for the repair order
+      labor:
+        type: number
+        description: Total labor estimate for the repair order
+      parts:
+        type: number
+        description: Total parts estimate for the repair order
+      misc:
+        type: number
+        description: Total miscellaneous estimate for the repair order
+      lube:
+        type: number
+        description: Total lube estimate for the repair order
+      sublet:
+        type: number
+        description: Total sublet estimate for the repair order
+      tax:
+        type: number
+        description: Total tax estimate for the repairs
+    example:
+      authorized: 200.00
+      labor: 80.00
+      parts: 40.00
+      misc: 30.00
+      lube: 30.00
+      sublet: 10.00
+      tax: 10.00
+
+  CreateUpdateServiceLine:
+    properties:
+      serviceRequest:
+        type: string
+        description: Service request description
+      cause:
+        type: string
+        description: Description of what caused the customer's complaint
+      comebackFlag:
+        type: boolean
+        description: Flag that indicates if the repair line is a comeback
+      dispatchCode:
+        type: string
+        description: | 
+          Dispatch code. Note that this field is the code that comes after the first character of 
+          the item ids of the DISPATCH-CODES file. I.E. The DispatchMakeCode and linDispatchCode 
+          are joined together to validate the dispatch code in the DISPATCH-CODES file.
+      estimatedDuration:
+        type: number
+        description: Estimated duration of the service request (line).  Required for Dispatching.
+      technicianId:
+        type: string
+        description: Technician identifier
+      laborOperations:
+        type: array
+        items:
+          $ref: "#/definitions/CreateUpdateLaborOperation"
+      laborType:
+        type: string
+        description: Labor type code
+      laborEstimate:
+        type: number
+        description: Total labor estimate for the service line
+      lubeEstimate:
+        type: number
+        description: Total lube estimate for the service line
+      miscEstimate:
+        type: number
+        description: Total miscellaneous estimate for the service line
+      partsEstimate:
+        type: number
+        description: Total parts estimate for the service line
+      serviceEstimate:
+        type: number
+        description: Total service estimate for the service line
+      subletEstimate:
+        type: number
+        description: Total sublet estimate for the service line
+      taxEstimate:
+        type: number
+        description: Total tax estimate for the service line
+      workorder:
+        $ref: "#/definitions/Workorder"
+    required:
+      - serviceRequest
+      - laborOperations
+      - dispatchCode
+      - estimatedDuration
+    example:
+      cause: "Unusual sound occurring when clutch is engaged"
+      comebackFlag: false
+      dispatchCode: "S102"
+      estimatedDuration: 1.5
+      laborEstimate: 10.00
+      laborType: "CEC"
+      lubeEstimate: 10.00
+      miscEstimate: 10.00
+      partsEstimate: 10.00
+      serviceEstimate: 10.00
+      serviceRequest: "Investigate sound coming from clutch"
+      subletEstimate: 10.00
+      taxEstimate: 10.00
+      technicianId: "253"
+      laborOperations:
+        - forceShopChargeFlag: false
+          laborType: "CEC"
+          opCode: "SSTR"
+          opCodeDesc: "SUSPENSION AND STEERING REPAIR"
+          soldHours: 0.20
+          saleAmount: 7.00
+          saleOverrideFlag: false
+      workorder:
+        printWorkorder: true
+        workorderPrinter: "1"
+        workorderCopies: "1"
+        partsPrinter: "L99999"
+
+  CreateUpdateLaborOperation:
+    properties:
+      opCode:
+        type: string
+        description: Labor operation code
+      opCodeDesc:
+        type: string
+        description: Labor operation code description
+      laborType:
+        type: string
+        description: Labor type code
+      includedParts:
+        type: array
+        items:
+          $ref: "#/definitions/CreateUpdatePartRef"
+        description: | 
+          The included parts specified to be used or consumed as part of the labor operation
+      saleAmount:
+        type: number
+        description: Sale amount. Required if SaleOverride is true. Ignored if false.
+      saleOverrideFlag:
+        type: boolean
+        description: Flag that indicates if the sale amount overrides any calculated amount
+      shopCharge:
+        type: number
+        description: | 
+          Shop charge amount that overrides a calculated shop charge.  Required if ForceShopCharge
+          is true. Ignored if false.
+      forceShopChargeFlag:
+        type: boolean
+        description: Flag that indicates if the shop charge overrides any calculated amount
+      soldHours:
+        type: number
+        description: Sold hours
+    required:
+      - forceShopChargeFlag
+      - opCode
+      - opCodeDesc
+      - saleOverrideFlag
+      - soldHours
+      - saleAmount
+    example:
+      forceShopChargeFlag: false
+      laborType: "CEC"
+      opCode: "SSTR"
+      opCodeDesc: "CLUTCH REPAIR"
+      soldHours: 0.20
+      saleAmount: 7.00
+      saleOverrideFlag: false
+      includedParts:
+        - partRefId: "1"
+          fixedSaleFlag: false
+          includesCoreFlag: false
+          mfrCode: "FR"
+          partNumber: "P9488"
+          partNumberDescription: "CLUTCH PLATE"
+          partQty: 4
+          saleAmount: 30.00
+        - partRefId: "2"
+          fixedSaleFlag: false
+          includesCoreFlag: false
+          mfrCode: "FR"
+          partNumber: "7488"
+          partNumberDescription: "RETAINER CIRCLIP"
+          partQty: 1
+          saleAmount: 5.00
+
+  CreateUpdatePartRef:
+    properties:
+      partNumber:
+        type: string
+        description: Preassigned part number
+      partNumberDescription:
+        type: string
+        description: Part number description
+      mfrCode:
+        type: string
+        description: Manufacturer code
+      partQty:
+        type: number
+        description: Part quantity
+      saleAmount:
+        type: number
+        description: Sale amount
+      fixedSaleFlag:
+        type: boolean
+        description: | 
+          Flag that indicates if the unit sale amount is a fixed price. If so, the Parts 
+          application will not re-price the part.
+      includesCoreFlag:
+        type: boolean
+        description: | 
+          Flag that indicates if the core amount is included in the unit sale amount
+    required:
+      - partNumber
+      - partNumberDescription
+      - mfrCode
+      - partQty
+      - saleAmount
+      - fixedSaleFlag
+      - includesCoreFlag
+    example:
+      fixedSaleFlag: false
+      includesCoreFlag: false
+      mfrCode: "FR"
+      partNumber: "P9488"
+      partNumberDescription: "CLUTCH PLATE"
+      partQty: 1
+      saleAmount: 30.00
+
+  # Common
+  Measurement:
+    properties:
+      value:
+        type: number
+        description: The measurement value
+      units:
+        type: string
+        enum:
+          - MI
+          - KM
+          - HR
+        description: The units of measurement
+    required:
+      - value
+      - units
+    example:
+      value: 1000.00
+      units: "MI"
+
+  LinkDescriptionObject:
+    type: object
+    properties:
+      href:
+        type: string
+        description: The target URI
+      rel:
+        type: string
+        description: The link relation type
+      method:
+        type: string
+        description: The HTTP verb that MUST be used to make a request to the target of the link
+      title:
+        type: string
+        description: A human readable title for the link that conveys the purpose of the link
+    required:
+      - href
+    example:
+      href: "https://api.fortellis.io/cdkdrive/service/v1/repair-orders/123"
+      method: "GET"
+
+  ErrorResponse:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+    required:
+      - code
+      - message
+    example:
+      code: 500
+      message: "Internal error"
