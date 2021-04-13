@@ -1,0 +1,554 @@
+openapi: 3.0.0
+info:
+  title: Stores API Specification
+  description: Dealership Domain Stores API Specification
+  termsOfService: http://swagger.io/terms/
+  contact:
+    name: Star Standards
+    url: http://starstandards.com
+    email: apiteam@starstandards.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: "0.1"
+servers:
+- url: https://virtserver.swaggerhub.com/star-standard/dealers-stores/0.1
+  description: SwaggerHub API Auto Mocking
+- url: https://virtserver.swaggerhub.com/ethomas111/staff-availability/1.0
+- url: http://star-standards/api/common/v1
+tags:
+- name: Associate Assignment
+  description: Manage Assignment of Dealer Staff to Sales Process Opportunity
+paths:
+  /dealers/{dealer-id}/stores/{store-id}:
+    summary: Get Dealer Store
+    get:
+      tags:
+      - dealers stores
+      summary: Get Dealer Store
+      description: Get Dealer by Store Id
+      operationId: getDealersStoresByDealerIdStoreId
+      parameters:
+      - name: Accept-Language
+        in: header
+        description: "advertises which languages the client is able to understand\
+          \ (ex: en-US,en;fr-CH)"
+        schema:
+          minimum: 0
+          type: string
+      - name: Accept-Encoding
+        in: header
+        description: "The encoding algorithm, usually a compression algorithm, that\
+          \ can be used on the resource sent back"
+        schema:
+          minimum: 0
+          type: string
+      - name: Accept-Charset
+        in: header
+        description: Which character encodings the client understands
+        schema:
+          minimum: 0
+          type: string
+      - name: dealer-id
+        in: path
+        description: unique identifier for a dealer-id
+        required: true
+        schema:
+          minimum: 0
+          type: integer
+      - name: store-id
+        in: path
+        description: unique identifier for a dealer store
+        required: true
+        schema:
+          minimum: 0
+          type: integer
+      responses:
+        "200":
+          description: store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Store'
+              examples:
+                Store:
+                  $ref: '#/components/examples/Store'
+        "400":
+          $ref: '#/components/schemas/BadRequest'
+        "401":
+          $ref: '#/components/schemas/Unauthorized'
+        "403":
+          $ref: '#/components/schemas/Forbidden'
+        "404":
+          $ref: '#/components/schemas/NotFound'
+        "500":
+          $ref: '#/components/schemas/InternalServerError'
+        "503":
+          $ref: '#/components/schemas/ServiceUnavailable'
+      x-swagger-router-controller: DealersStores
+    put:
+      tags:
+      - dealers stores
+      summary: Update Dealer Store by store-id
+      description: Update Dealer Store by store-id
+      operationId: putDealersStoresByDealerIdStoreId
+      parameters:
+      - name: Accept-Language
+        in: header
+        description: "advertises which languages the client is able to understand\
+          \ (ex: en-US,en;fr-CH)"
+        schema:
+          minimum: 0
+          type: string
+      - name: Accept-Encoding
+        in: header
+        description: "The encoding algorithm, usually a compression algorithm, that\
+          \ can be used on the resource sent back"
+        schema:
+          minimum: 0
+          type: string
+      - name: Accept-Charset
+        in: header
+        description: Which character encodings the client understands
+        schema:
+          minimum: 0
+          type: string
+      - name: dealer-id
+        in: path
+        description: unique identifier for a dealer-id
+        required: true
+        schema:
+          minimum: 0
+          type: integer
+      - name: store-id
+        in: path
+        description: unique identifier for a dealer store
+        required: true
+        schema:
+          minimum: 0
+          type: integer
+      requestBody:
+        $ref: '#/components/requestBodies/store'
+      responses:
+        "200":
+          description: store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Store'
+              examples:
+                Store:
+                  $ref: '#/components/examples/Store'
+        "400":
+          $ref: '#/components/schemas/BadRequest'
+        "401":
+          $ref: '#/components/schemas/Unauthorized'
+        "403":
+          $ref: '#/components/schemas/Forbidden'
+        "404":
+          $ref: '#/components/schemas/NotFound'
+        "500":
+          $ref: '#/components/schemas/InternalServerError'
+        "503":
+          $ref: '#/components/schemas/ServiceUnavailable'
+      x-swagger-router-controller: DealersStores
+    delete:
+      tags:
+      - dealers stores
+      summary: Remove Dealer Store by store-id
+      description: Remove Dealer Store by store-id
+      operationId: deleteDealersStoresByDealerIdStoreId
+      parameters:
+      - name: Accept-Language
+        in: header
+        description: "advertises which languages the client is able to understand\
+          \ (ex: en-US,en;fr-CH)"
+        schema:
+          minimum: 0
+          type: string
+      - name: Accept-Encoding
+        in: header
+        description: "The encoding algorithm, usually a compression algorithm, that\
+          \ can be used on the resource sent back"
+        schema:
+          minimum: 0
+          type: string
+      - name: Accept-Charset
+        in: header
+        description: Which character encodings the client understands
+        schema:
+          minimum: 0
+          type: string
+      - name: dealer-id
+        in: path
+        description: unique identifier for a dealer-id
+        required: true
+        schema:
+          minimum: 0
+          type: integer
+      - name: store-id
+        in: path
+        description: unique identifier for a dealer store
+        required: true
+        schema:
+          minimum: 0
+          type: integer
+      responses:
+        "204":
+          $ref: '#/components/schemas/Success'
+        "400":
+          $ref: '#/components/schemas/BadRequest'
+        "401":
+          $ref: '#/components/schemas/Unauthorized'
+        "403":
+          $ref: '#/components/schemas/Forbidden'
+        "404":
+          $ref: '#/components/schemas/NotFound'
+        "500":
+          $ref: '#/components/schemas/InternalServerError'
+        "503":
+          $ref: '#/components/schemas/ServiceUnavailable'
+      x-swagger-router-controller: DealersStores
+  /dealers/{dealer-id}/stores:
+    summary: Create Dealer Store
+    get:
+      tags:
+      - dealers stores
+      summary: Get All Dealer Stores By Criteria
+      description: Get All Dealer Stores By Criteria
+      operationId: getDealersStoresByDealerId
+      parameters:
+      - name: Accept-Language
+        in: header
+        description: "advertises which languages the client is able to understand\
+          \ (ex: en-US,en;fr-CH)"
+        schema:
+          minimum: 0
+          type: string
+      - name: Accept-Encoding
+        in: header
+        description: "The encoding algorithm, usually a compression algorithm, that\
+          \ can be used on the resource sent back"
+        schema:
+          minimum: 0
+          type: string
+      - name: Accept-Charset
+        in: header
+        description: Which character encodings the client understands
+        schema:
+          minimum: 0
+          type: string
+      - name: dealer-id
+        in: path
+        description: unique identifier for a dealer-id
+        required: true
+        schema:
+          minimum: 0
+          type: integer
+      - name: brand-code
+        in: query
+        description: Brand Code
+        schema:
+          type: string
+      - name: store-name
+        in: query
+        description: Store Name
+        schema:
+          type: string
+      - name: store-id
+        in: query
+        description: Store Id
+        schema:
+          type: string
+      responses:
+        "200":
+          description: stores
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Stores'
+              examples:
+                Stores:
+                  $ref: '#/components/examples/Stores'
+        "400":
+          $ref: '#/components/schemas/BadRequest'
+        "401":
+          $ref: '#/components/schemas/Unauthorized'
+        "403":
+          $ref: '#/components/schemas/Forbidden'
+        "404":
+          $ref: '#/components/schemas/NotFound'
+        "500":
+          $ref: '#/components/schemas/InternalServerError'
+        "503":
+          $ref: '#/components/schemas/ServiceUnavailable'
+      x-swagger-router-controller: DealersStores
+    post:
+      tags:
+      - dealers stores
+      summary: Create Dealer Store
+      description: Create Dealer Store
+      operationId: postDealersStoresByDealerId
+      parameters:
+      - name: Accept-Language
+        in: header
+        description: "advertises which languages the client is able to understand\
+          \ (ex: en-US,en;fr-CH)"
+        schema:
+          minimum: 0
+          type: string
+      - name: Accept-Encoding
+        in: header
+        description: "The encoding algorithm, usually a compression algorithm, that\
+          \ can be used on the resource sent back"
+        schema:
+          minimum: 0
+          type: string
+      - name: Accept-Charset
+        in: header
+        description: Which character encodings the client understands
+        schema:
+          minimum: 0
+          type: string
+      - name: dealer-id
+        in: path
+        description: unique identifier for a dealer-id
+        required: true
+        schema:
+          minimum: 0
+          type: integer
+      requestBody:
+        $ref: '#/components/requestBodies/store'
+      responses:
+        "201":
+          description: store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Store'
+              examples:
+                Store:
+                  $ref: '#/components/examples/Store'
+        "400":
+          $ref: '#/components/schemas/BadRequest'
+        "401":
+          $ref: '#/components/schemas/Unauthorized'
+        "403":
+          $ref: '#/components/schemas/Forbidden'
+        "404":
+          $ref: '#/components/schemas/NotFound'
+        "500":
+          $ref: '#/components/schemas/InternalServerError'
+        "503":
+          $ref: '#/components/schemas/ServiceUnavailable'
+      x-swagger-router-controller: DealersStores
+components:
+  schemas:
+    Store:
+      required:
+      - countryCode
+      - storeCode
+      - storeName
+      type: object
+      properties:
+        storeName:
+          type: string
+          description: Dealer Name
+          example: Aiden Automotive Dealership
+        storeCode:
+          type: string
+          description: ' Code that uniquely identifies Brand or Sell Source'
+          example: AWSE123
+        countryCode:
+          type: string
+          description: country code where the dealership is doing business
+          example: USA
+        storeId:
+          type: string
+          description: identifying key for dealer
+          example: 5ca22014-5107-42e4-b8a7-8dfd5a253ad3
+        brandCode:
+          type: array
+          items:
+            type: string
+        storeContact:
+          type: string
+          description: name of the dealership primary contact
+          example: Carson Thomas
+        preferredLanguageCode:
+          type: string
+          description: single primary language of the dealership
+          example: English
+        languageCodes:
+          type: array
+          items:
+            type: string
+        comments:
+          type: string
+          description: comments about the staff assignment
+          example: Great Guy
+        specialRemarksDescription:
+          type: string
+          description: Dealership Special Remarks
+          example: Dealership is closed on Sundays
+        contactMethodsHref:
+          type: string
+          description: reference to dealership contact methods
+          example: /dealers/723a0283/stores/d405c08c/departments/25bbcca8/contactMethods
+        storesHref:
+          type: string
+          description: reference to all of the dealership stores
+          example: /dealers/8b39cb22/stores
+        departmentsHref:
+          type: string
+          description: reference to all of the dealership departments
+          example: /dealers/723a0283/stores/d405c08c/departments/25bbcca8
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+      description: Dealership Store
+      example:
+        preferredLanguageCode: English
+        comments: Great Guy
+        storesHref: /dealers/8b39cb22/stores
+        departmentsHref: /dealers/723a0283/stores/d405c08c/departments/25bbcca8
+        specialRemarksDescription: Dealership is closed on Sundays
+        storeId: 5ca22014-5107-42e4-b8a7-8dfd5a253ad3
+        languageCodes:
+        - languageCodes
+        - languageCodes
+        contactMethodsHref: /dealers/723a0283/stores/d405c08c/departments/25bbcca8/contactMethods
+        countryCode: USA
+        storeContact: Carson Thomas
+        storeName: Aiden Automotive Dealership
+        links:
+        - method: GET
+          rel: self
+          href: /dealers/232231
+          title: Get Dealer Information
+        - method: GET
+          rel: self
+          href: /dealers/232231
+          title: Get Dealer Information
+        storeCode: AWSE123
+        brandCode:
+        - brandCode
+        - brandCode
+    Link:
+      required:
+      - href
+      - rel
+      type: object
+      properties:
+        href:
+          type: string
+          description: reference to an item
+          example: /dealers/232231
+        rel:
+          type: string
+          description: referenced name of link
+          example: self
+        method:
+          type: string
+          description: http method used to execute the link
+          example: GET
+        title:
+          type: string
+          description: description of the link
+          example: Get Dealer Information
+      description: HATEOS link
+      example:
+        method: GET
+        rel: self
+        href: /dealers/232231
+        title: Get Dealer Information
+    Stores:
+      type: array
+      items:
+        $ref: '#/components/schemas/Store'
+  responses:
+    store:
+      description: store
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Store'
+          examples:
+            Store:
+              $ref: '#/components/examples/Store'
+    stores:
+      description: stores
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Stores'
+          examples:
+            Stores:
+              $ref: '#/components/examples/Stores'
+  examples:
+    Store:
+      summary: Store
+      description: Example for Store
+      value:
+        preferredLanguageCode: French
+        comments: Dealer Store of Year.  North Alpharetta
+        storesHref: /dealers/269175/stores/376367
+        departmentsHref: /dealers/269175/stores/376367/departments
+        specialRemarksDescription: Sunday Reduced Hours. Saturday Extended Hours.
+        storeId: "376367"
+        languageCodes:
+        - English
+        - Spanish
+        - French
+        - Slovenian
+        - Samoan
+        - Shona
+        contactMethodsHref: /dealers/269175/stores/376367/contact-methods/
+        countryCode: US
+        storeContact: Michael B. Johnson
+        storeName: North Alpharetta Universal Dealership
+        storeCode: "390893"
+        brandCode:
+        - GMC
+        - Cadillac
+        - Chevrolet
+        - Buick
+    Stores:
+      summary: Stores
+      description: Example for Stores
+      value:
+      - brandCode:
+        - GMC
+        - Cadillac
+        - Chevrolet
+        - Buick
+        comments: Dealer Store of Year.  North Alpharetta
+        contactMethodsHref: /dealers/269175/stores/376367/contact-methods/
+        countryCode: US
+        departmentsHref: /dealers/269175/stores/376367/departments
+        languageCodes:
+        - English
+        - Spanish
+        - French
+        - Slovenian
+        - Samoan
+        - Shona
+        preferredLanguageCode: French
+        specialRemarksDescription: Sunday Reduced Hours. Saturday Extended Hours.
+        storeCode: "390893"
+        storeContact: Michael B. Johnson
+        storeId: "376367"
+        storeName: North Alpharetta Universal Dealership
+        storesHref: /dealers/269175/stores/376367
+  requestBodies:
+    store:
+      description: store
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Store'
+          examples:
+            Store:
+              $ref: '#/components/examples/Store'
+      required: true
