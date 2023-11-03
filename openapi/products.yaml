@@ -1,0 +1,1318 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "Products API to test Swagger Portal",
+    "description" : "Products API to test Swagger Portal",
+    "contact" : {
+      "email" : "you@your-company.com"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "https://virtserver.swaggerhub.com/star-standard/deals/0.1",
+    "description" : "SwaggerHub API Auto Mocking"
+  } ],
+  "tags" : [ {
+    "name" : "admins",
+    "description" : "Secured Admin-only calls"
+  }, {
+    "name" : "developers",
+    "description" : "Operations available to regular developers"
+  } ],
+  "paths" : {
+    "/Products" : {
+      "get" : {
+        "tags" : [ "developers" ],
+        "summary" : "searches products",
+        "description" : "By passing in the appropriate options, you can search for\navailable Products in the system\n",
+        "operationId" : "searchProducts",
+        "parameters" : [ {
+          "name" : "searchString",
+          "in" : "query",
+          "description" : "pass an optional search string for looking up inventory",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "skip",
+          "in" : "query",
+          "description" : "number of records to skip for pagination",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "minimum" : 0,
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }, {
+          "name" : "limit",
+          "in" : "query",
+          "description" : "maximum number of records to return",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "maximum" : 50,
+            "minimum" : 0,
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "search results matching criteria",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/ProductItem"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "admins" ],
+        "summary" : "adds a product item",
+        "description" : "Adds an item to the system",
+        "operationId" : "addProduct",
+        "requestBody" : {
+          "description" : "Inventory item to add",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ProductItem"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "item created"
+          },
+          "400" : {
+            "description" : "invalid input, object invalid"
+          },
+          "409" : {
+            "description" : "an existing item already exists"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "ProductItem" : {
+        "type" : "object",
+        "properties" : {
+          "product_agent" : {
+            "$ref" : "#/components/schemas/ProductAgent"
+          },
+          "appointment_href" : {
+            "type" : "string"
+          },
+          "comments" : {
+            "type" : "string",
+            "description" : "Comments about this product"
+          },
+          "commission_rule_codes" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "control_account" : {
+            "$ref" : "#/components/schemas/ControlAccount"
+          },
+          "product_contract" : {
+            "$ref" : "#/components/schemas/ProductContract"
+          },
+          "product_code" : {
+            "type" : "string",
+            "description" : " code used to reference this product",
+            "example" : "X198PROD"
+          },
+          "product_status" : {
+            "$ref" : "#/components/schemas/ProductStatusTypes"
+          },
+          "distance_uom" : {
+            "$ref" : "#/components/schemas/OdometerUnitTypes"
+          },
+          "product_fees" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ProductFee"
+            }
+          },
+          "product_credits" : {
+            "$ref" : "#/components/schemas/Credits"
+          },
+          "product_in_service" : {
+            "$ref" : "#/components/schemas/ProductInService"
+          },
+          "links" : {
+            "type" : "array",
+            "description" : "List of links for this product",
+            "items" : {
+              "$ref" : "#/components/schemas/ProductLink"
+            }
+          },
+          "location_code" : {
+            "type" : "string",
+            "description" : "Location Code"
+          },
+          "manufacturer" : {
+            "type" : "string",
+            "description" : "Who produces, manufacturers or offers this product"
+          },
+          "product_medias" : {
+            "type" : "array",
+            "description" : "List of media for this product",
+            "items" : {
+              "$ref" : "#/components/schemas/ProductMedia"
+            }
+          },
+          "notes" : {
+            "type" : "string",
+            "description" : "Notes about this product"
+          },
+          "product_payments" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ProductPayment"
+            }
+          },
+          "product_price" : {
+            "$ref" : "#/components/schemas/ProductPrice"
+          },
+          "product_id" : {
+            "type" : "string",
+            "description" : "unique identifier for a product",
+            "example" : "PRODUCT123456"
+          },
+          "product_add_type" : {
+            "$ref" : "#/components/schemas/ProductAddTypes"
+          },
+          "product_category_types" : {
+            "type" : "array",
+            "description" : "List of product category types for this product",
+            "items" : {
+              "$ref" : "#/components/schemas/ProductCategoryTypes"
+            }
+          },
+          "product_description" : {
+            "description" : "A description for this product"
+          },
+          "product_detail_href" : {
+            "type" : "string",
+            "description" : "Reference used to get this product's details"
+          },
+          "product_name" : {
+            "type" : "string",
+            "description" : "A name for this product"
+          },
+          "first_time_buyer_indicator" : {
+            "type" : "boolean",
+            "description" : "first time buyer indicator",
+            "example" : false
+          },
+          "product_types" : {
+            "type" : "array",
+            "description" : "List of product types for this product",
+            "items" : {
+              "$ref" : "#/components/schemas/ProductTypes"
+            }
+          },
+          "product_type_code" : {
+            "type" : "string",
+            "description" : "Type code used to reference this product"
+          },
+          "product_discounts" : {
+            "type" : "array",
+            "description" : "List of discounts for this product",
+            "items" : {
+              "$ref" : "#/components/schemas/ProductDiscount"
+            }
+          },
+          "products" : {
+            "type" : "array",
+            "description" : "List of product",
+            "items" : {
+              "$ref" : "#/components/schemas/Product"
+            }
+          },
+          "product_rewards" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ProductReward"
+            }
+          },
+          "residual_product_indicator" : {
+            "type" : "boolean",
+            "description" : "indicate if this product has residual value",
+            "example" : true
+          },
+          "product_rules" : {
+            "$ref" : "#/components/schemas/ProductRules"
+          },
+          "stock_number" : {
+            "type" : "string",
+            "description" : "How this product is referred to in the stock system"
+          },
+          "product_subject" : {
+            "$ref" : "#/components/schemas/ProductSubject"
+          },
+          "product_terms" : {
+            "type" : "array",
+            "description" : "List of terms for this product",
+            "items" : {
+              "$ref" : "#/components/schemas/ProductTerm"
+            }
+          },
+          "universal_id" : {
+            "type" : "string",
+            "description" : "unique identifier for a product",
+            "example" : "PRODUCT123456"
+          }
+        },
+        "description" : "Full payload for product details"
+      },
+      "ProductDetail" : {
+        "type" : "object",
+        "properties" : {
+          "attributes" : {
+            "type" : "array",
+            "description" : "List of attributes for this product details",
+            "items" : {
+              "$ref" : "#/components/schemas/ProductDetailAttribute"
+            }
+          },
+          "currency" : {
+            "type" : "string",
+            "description" : "The currency this product is offerer in as a three letter currency code ISO 4217"
+          },
+          "links" : {
+            "type" : "array",
+            "description" : "List of links for this product",
+            "items" : {
+              "$ref" : "#/components/schemas/Link"
+            }
+          },
+          "product_href" : {
+            "type" : "string",
+            "description" : "Reference used to get this product's details"
+          }
+        },
+        "description" : "Full payload for product details"
+      },
+      "Product" : {
+        "type" : "object",
+        "properties" : {
+          "product_agent" : {
+            "$ref" : "#/components/schemas/ProductAgent"
+          },
+          "appointment_href" : {
+            "type" : "string"
+          },
+          "comments" : {
+            "type" : "string",
+            "description" : "Comments about this product"
+          },
+          "commission_rule_codes" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "control_account" : {
+            "$ref" : "#/components/schemas/ControlAccount"
+          },
+          "product_contract" : {
+            "$ref" : "#/components/schemas/ProductContract"
+          },
+          "product_code" : {
+            "type" : "string",
+            "description" : " code used to reference this product",
+            "example" : "X198PROD"
+          },
+          "product_status" : {
+            "$ref" : "#/components/schemas/ProductStatusTypes"
+          },
+          "distance_uom" : {
+            "$ref" : "#/components/schemas/OdometerUnitTypes"
+          },
+          "product_fees" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ProductFee"
+            }
+          },
+          "product_credits" : {
+            "$ref" : "#/components/schemas/Credits"
+          },
+          "product_in_service" : {
+            "$ref" : "#/components/schemas/ProductInService"
+          },
+          "links" : {
+            "type" : "array",
+            "description" : "List of links for this product",
+            "items" : {
+              "$ref" : "#/components/schemas/ProductLink"
+            }
+          },
+          "location_code" : {
+            "type" : "string",
+            "description" : "Location Code"
+          },
+          "manufacturer" : {
+            "type" : "string",
+            "description" : "Who produces, manufacturers or offers this product"
+          },
+          "product_medias" : {
+            "type" : "array",
+            "description" : "List of media for this product",
+            "items" : {
+              "$ref" : "#/components/schemas/ProductMedia"
+            }
+          },
+          "notes" : {
+            "type" : "string",
+            "description" : "Notes about this product"
+          },
+          "product_payments" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ProductPayment"
+            }
+          },
+          "product_price" : {
+            "$ref" : "#/components/schemas/ProductPrice"
+          },
+          "product_id" : {
+            "type" : "string",
+            "description" : "unique identifier for a product",
+            "example" : "PRODUCT123456"
+          },
+          "product_add_type" : {
+            "$ref" : "#/components/schemas/ProductAddTypes"
+          },
+          "product_category_types" : {
+            "type" : "array",
+            "description" : "List of product category types for this product",
+            "items" : {
+              "$ref" : "#/components/schemas/ProductCategoryTypes"
+            }
+          },
+          "product_description" : {
+            "description" : "A description for this product"
+          },
+          "product_detail_href" : {
+            "type" : "string",
+            "description" : "Reference used to get this product's details"
+          },
+          "product_name" : {
+            "type" : "string",
+            "description" : "A name for this product"
+          },
+          "first_time_buyer_indicator" : {
+            "type" : "boolean",
+            "description" : "first time buyer indicator",
+            "example" : false
+          },
+          "product_types" : {
+            "type" : "array",
+            "description" : "List of product types for this product",
+            "items" : {
+              "$ref" : "#/components/schemas/ProductTypes"
+            }
+          },
+          "product_type_code" : {
+            "type" : "string",
+            "description" : "Type code used to reference this product"
+          },
+          "product_discounts" : {
+            "type" : "array",
+            "description" : "List of discounts for this product",
+            "items" : {
+              "$ref" : "#/components/schemas/ProductDiscount"
+            }
+          },
+          "products" : {
+            "type" : "array",
+            "description" : "List of product",
+            "items" : {
+              "$ref" : "#/components/schemas/Product"
+            }
+          },
+          "product_rewards" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ProductReward"
+            }
+          },
+          "residual_product_indicator" : {
+            "type" : "boolean",
+            "description" : "indicate if this product has residual value",
+            "example" : true
+          },
+          "product_rules" : {
+            "$ref" : "#/components/schemas/ProductRules"
+          },
+          "stock_number" : {
+            "type" : "string",
+            "description" : "How this product is referred to in the stock system"
+          },
+          "product_subject" : {
+            "$ref" : "#/components/schemas/ProductSubject"
+          },
+          "product_terms" : {
+            "type" : "array",
+            "description" : "List of terms for this product",
+            "items" : {
+              "$ref" : "#/components/schemas/ProductTerm"
+            }
+          },
+          "universal_id" : {
+            "type" : "string",
+            "description" : "unique identifier for a product",
+            "example" : "PRODUCT123456"
+          }
+        },
+        "description" : "Full payload for product details"
+      },
+      "ProductAgent" : {
+        "required" : [ "agent_profile_href" ],
+        "type" : "object",
+        "properties" : {
+          "agent_contact_method_href" : {
+            "type" : "string",
+            "description" : "Reference used to get this product's agent contact method"
+          },
+          "agent_id" : {
+            "type" : "string",
+            "description" : "Unique Identifier for an Agent"
+          },
+          "agent_profile_href" : {
+            "type" : "string",
+            "description" : "Reference used to get this product's agent profile"
+          }
+        },
+        "description" : "Agent for this product"
+      },
+      "ControlAccount" : {
+        "required" : [ "control_account_desc", "control_account_type" ],
+        "type" : "object",
+        "properties" : {
+          "control_account_desc" : {
+            "type" : "string",
+            "description" : "control account Id",
+            "example" : "34567"
+          },
+          "control_account_id" : {
+            "type" : "string",
+            "description" : "control account Id",
+            "example" : "34567"
+          },
+          "control_account_type" : {
+            "$ref" : "#/components/schemas/ControlAccountTypes"
+          }
+        },
+        "description" : "journal entry for general ledger"
+      },
+      "ControlAccountTypes" : {
+        "type" : "string",
+        "enum" : [ "DEALER", "VEHICLE", "ACCESSORIES", "OPTION", "CUSTOMER", "VENDOR", "EMPLOYEE", "PRODUCT", "REPAIR_ORDER", "PARTS_SALES_ORDER", "REFERENCE", "PACKAGE", "FEE", "DISCOUNT", "REBATE", "CREDIT", "TAX", "OTHER" ]
+      },
+      "ProductContract" : {
+        "type" : "object",
+        "properties" : {
+          "capitalization_indicator" : {
+            "type" : "boolean",
+            "description" : "Was this product capitalized?"
+          },
+          "contract_num" : {
+            "type" : "string",
+            "description" : "Contract number for this product"
+          },
+          "effective_date" : {
+            "type" : "string",
+            "description" : "Date this contract will become effective",
+            "format" : "date"
+          },
+          "expiration_date" : {
+            "type" : "string",
+            "description" : "Date this contract will expire",
+            "format" : "date"
+          },
+          "expiration_distance" : {
+            "minimum" : 0,
+            "type" : "integer",
+            "description" : "The distance the vehicle will travel before the contract will expire"
+          },
+          "financed_indicator" : {
+            "type" : "boolean",
+            "description" : "Was this product financed?"
+          },
+          "quantity" : {
+            "type" : "number",
+            "description" : "Quantity of products this covers"
+          },
+          "taxability_indicator" : {
+            "type" : "boolean",
+            "description" : "Is this product subject to tax?"
+          },
+          "term_units" : {
+            "type" : "string",
+            "description" : "Units the term value is defined in e.g. days, months, years"
+          },
+          "term_value" : {
+            "minimum" : 0,
+            "type" : "integer",
+            "description" : "How long a period the contract is over"
+          }
+        },
+        "description" : "Contract details for this product"
+      },
+      "ProductStatusTypes" : {
+        "type" : "string",
+        "description" : "Enumerated list of product statuses. Identifies the status code of the product",
+        "enum" : [ "ACTIVE", "RETIRED", "PENDING", "PILOT", "CANCELLED" ]
+      },
+      "OdometerUnitTypes" : {
+        "type" : "string",
+        "description" : "odometer units. Distance unit of measure for this product",
+        "enum" : [ "MILES", "KM" ]
+      },
+      "ProductFee" : {
+        "required" : [ "product_fee_amount", "product_fee_name" ],
+        "type" : "object",
+        "properties" : {
+          "product_fee_amount" : {
+            "type" : "number",
+            "description" : "Amount the fee costs"
+          },
+          "product_fee_href" : {
+            "type" : "string",
+            "description" : "Reference used to get the fee details"
+          },
+          "product_fee_id" : {
+            "type" : "string",
+            "description" : "Unique Identifier"
+          },
+          "product_fee_name" : {
+            "type" : "string",
+            "description" : "Name of the fee"
+          }
+        },
+        "description" : "Product fee details"
+      },
+      "Credits" : {
+        "type" : "array",
+        "description" : "",
+        "items" : {
+          "$ref" : "#/components/schemas/Credit"
+        }
+      },
+      "Credit" : {
+        "required" : [ "credit_code" ],
+        "type" : "object",
+        "properties" : {
+          "control_account_desc" : {
+            "type" : "string",
+            "description" : "control account Id",
+            "example" : "34567"
+          },
+          "control_account_id" : {
+            "type" : "string",
+            "description" : "control account Id",
+            "example" : "34567"
+          },
+          "control_account_type" : {
+            "$ref" : "#/components/schemas/ControlAccountTypes"
+          },
+          "credit_code" : {
+            "type" : "string",
+            "description" : "unique code for the credit",
+            "example" : "4fe18603"
+          },
+          "credit_description" : {
+            "type" : "string",
+            "description" : "detail description of the credit",
+            "example" : "Trade-In Amount"
+          },
+          "credit_href" : {
+            "type" : "string",
+            "description" : "link to credit detail information",
+            "format" : "href",
+            "example" : "/dealers/db6d4ae0/credits/347592e0e6d7"
+          },
+          "credit_id" : {
+            "type" : "string",
+            "description" : "unique identifier for credit",
+            "example" : " 6878592b59a1"
+          },
+          "credit_name" : {
+            "type" : "string",
+            "description" : "specific name of the credit",
+            "example" : "Preparation"
+          },
+          "credit_percent_value" : {
+            "type" : "string",
+            "description" : "credit percent value",
+            "example" : "45"
+          },
+          "credit_price" : {
+            "$ref" : "#/components/schemas/Price"
+          },
+          "credit_type" : {
+            "$ref" : "#/components/schemas/CreditTypes"
+          },
+          "due_on_type" : {
+            "$ref" : "#/components/schemas/DueOnTypes"
+          },
+          "identifiers" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Identifier"
+            }
+          },
+          "location_code" : {
+            "type" : "string",
+            "description" : "Location Code",
+            "example" : "GA_30009"
+          },
+          "payment_types" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/PaymentTypes"
+            }
+          },
+          "purchase_type" : {
+            "$ref" : "#/components/schemas/PurchaseTypes"
+          },
+          "tax_groups" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "taxability_indicator" : {
+            "type" : "boolean",
+            "description" : "indicates if this value is taxable",
+            "example" : false
+          },
+          "validation_type" : {
+            "$ref" : "#/components/schemas/ValidationTypes"
+          },
+          "vehicle_state_type" : {
+            "$ref" : "#/components/schemas/VehicleStateTypes"
+          }
+        },
+        "description" : "A credit is a cut in price that comes directly out of the dealer's pocket and is not reimbursed by the manufacturer"
+      },
+      "Price" : {
+        "required" : [ "currency", "value" ],
+        "type" : "object",
+        "properties" : {
+          "currency" : {
+            "type" : "string",
+            "description" : "currency type of the price element",
+            "example" : "USD"
+          },
+          "display_value" : {
+            "type" : "string",
+            "description" : "display price of the price element including currency symbol and proper decimal",
+            "example" : "$10,100"
+          },
+          "locale" : {
+            "type" : "string",
+            "description" : "locale of the price",
+            "example" : "en_US"
+          },
+          "value" : {
+            "type" : "string",
+            "description" : "value",
+            "example" : "10100"
+          }
+        },
+        "description" : "price that includes display price, currency, locale, and value"
+      },
+      "CreditTypes" : {
+        "type" : "string",
+        "enum" : [ "TRADE", "REWARD", "DEPOSIT", "DOWN_PAYMENT", "CASH", "COUPON", "PLATFORM", "CRYPTO" ]
+      },
+      "DueOnTypes" : {
+        "type" : "string",
+        "enum" : [ "SIGNING", "SALE", "CLOSE", "INCEPTION", "DELIVERY", "IMMEDIATE", "PROMPT", "SCHEDULE", "CAP_SCHED_INC", "CAP_SCHED_EXCL", "TRIAL_COMPLETE", "TRIAL_START", "RECUR", "DISPOSITION", "PAYMENT", "OTHER" ]
+      },
+      "Identifier" : {
+        "required" : [ "context", "identifier_id" ],
+        "type" : "object",
+        "properties" : {
+          "system_code" : {
+            "type" : "string",
+            "description" : "System Level Code",
+            "example" : "GM"
+          },
+          "context" : {
+            "type" : "string",
+            "description" : "unique identifier for downstream systems",
+            "example" : "manufacturerCustomer"
+          },
+          "identifier_id" : {
+            "type" : "string",
+            "description" : "unique identifier for identifier ",
+            "example" : "123"
+          }
+        },
+        "description" : "Unique downstream identifiers"
+      },
+      "PaymentTypes" : {
+        "type" : "string",
+        "enum" : [ "FINANCE", "LEASE", "CASH", "SUBSCRIPTION", "BALLOON" ]
+      },
+      "PurchaseTypes" : {
+        "type" : "string",
+        "enum" : [ "RETAIL", "WHOLESALE", "STANDARD", "CONTRACT", "FLEET", "COMMERCIAL", "DIRECT", "DEALER_TRADE", "OTHER" ]
+      },
+      "ValidationTypes" : {
+        "type" : "string",
+        "enum" : [ "OVERRIDE", "NONE", "MINIMUM", "LOOSE", "STRICT", "TRUSTED", "CUSTOM" ]
+      },
+      "VehicleStateTypes" : {
+        "type" : "string",
+        "enum" : [ "NEW", "USED", "DEMO", "RENTAL", "CERTIFIED", "CUSTOMER", "PARTNER", "THIRD_PARTY", "UNKNOWN" ]
+      },
+      "ProductInService" : {
+        "required" : [ "in_service_date" ],
+        "type" : "object",
+        "properties" : {
+          "in_service_date" : {
+            "type" : "string",
+            "description" : "Date the in service started",
+            "format" : "date"
+          },
+          "in_service_distance" : {
+            "minimum" : 0,
+            "type" : "integer",
+            "description" : "In service distance"
+          }
+        },
+        "description" : "In service details for this product"
+      },
+      "ProductLink" : {
+        "required" : [ "href", "method", "rel", "title" ],
+        "type" : "object",
+        "properties" : {
+          "href" : {
+            "type" : "string",
+            "description" : "Reference to the link to get the details"
+          },
+          "method" : {
+            "type" : "string",
+            "description" : "The method used with the href to execute the link"
+          },
+          "rel" : {
+            "type" : "string",
+            "description" : "The link relation type"
+          },
+          "title" : {
+            "type" : "string",
+            "description" : "Description of what the link will do"
+          }
+        },
+        "description" : "Product link details"
+      },
+      "ProductMedia" : {
+        "required" : [ "media_href", "name" ],
+        "type" : "object",
+        "properties" : {
+          "media_href" : {
+            "type" : "string",
+            "description" : "Reference used to get the media details"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "Name of the media"
+          }
+        },
+        "description" : "Product media details"
+      },
+      "ProductPayment" : {
+        "required" : [ "payment_method_type", "sale_date" ],
+        "type" : "object",
+        "properties" : {
+          "confirmation_code" : {
+            "type" : "string",
+            "description" : "Confirmation code of the purchase"
+          },
+          "payment_id" : {
+            "type" : "string",
+            "description" : "Payment Unique Identifier"
+          },
+          "payment_method_type" : {
+            "$ref" : "#/components/schemas/ProductPaymentMethodTypes"
+          },
+          "sale_date" : {
+            "type" : "string",
+            "description" : "The date the product was sold",
+            "format" : "date"
+          }
+        },
+        "description" : "Payment details for this product"
+      },
+      "ProductPaymentMethodTypes" : {
+        "type" : "string",
+        "description" : "Enumerated list of payment methods.  The type of payment method used to purchase the product",
+        "enum" : [ "TERMS", "COD", "DUE_ON_RECEIPT", "CREDIT_CARD", "DEBIT_CARD", "CHECK", "EFT", "PAYROLL_DEDUCTION", "CASH", "FINANCE", "CRYPTO", "PLATFORM", "OTHER", "N/A", "EXCHANGE" ]
+      },
+      "ProductPrice" : {
+        "required" : [ "currency", "retail_price" ],
+        "type" : "object",
+        "properties" : {
+          "product_price_id" : {
+            "type" : "string",
+            "description" : "unique identifier for the product price resource"
+          },
+          "product_price_description" : {
+            "type" : "string",
+            "description" : "generic description for this product price"
+          },
+          "capitalized_indicator" : {
+            "type" : "boolean",
+            "description" : "Is this capitalized?"
+          },
+          "tax_upfront_indicator" : {
+            "type" : "boolean",
+            "description" : "tax upfront indicator",
+            "example" : false
+          },
+          "coinsurance" : {
+            "type" : "string",
+            "description" : "the insured pays a share of the payment made against a claim"
+          },
+          "copayment_price" : {
+            "type" : "string",
+            "description" : "a payment made by a beneficiary (esp for health services) in addition to that made by an insurer."
+          },
+          "cost_price" : {
+            "type" : "string",
+            "description" : "Cost of Goods price of the product"
+          },
+          "locale" : {
+            "type" : "string",
+            "description" : "locale of the price"
+          },
+          "currency" : {
+            "type" : "string",
+            "description" : "The currency this product is offered in as a three letter currency code ISO 4217"
+          },
+          "deductible_price" : {
+            "type" : "string",
+            "description" : "Deductible value of the product"
+          },
+          "retail_price" : {
+            "type" : "string",
+            "description" : "Retail price of the product"
+          },
+          "tax_capitalized_indicator" : {
+            "type" : "boolean",
+            "description" : "tax capitalized indicator",
+            "example" : false
+          },
+          "tax_rate" : {
+            "type" : "string",
+            "description" : "Tax Rate"
+          },
+          "taxable_indicator" : {
+            "type" : "boolean",
+            "description" : "Is this taxable?"
+          },
+          "transfer_cost_price" : {
+            "type" : "string",
+            "description" : "Transfer cost price of the product"
+          }
+        },
+        "description" : "Price details for this product"
+      },
+      "ProductAddTypes" : {
+        "type" : "string",
+        "description" : "Enumerated list of how the product was added.  Identifies how the product was added",
+        "enum" : [ "HARD", "SOFT", "UNKNOWN" ]
+      },
+      "ProductCategoryTypes" : {
+        "type" : "string",
+        "enum" : [ "DATA", "IP", "SOFTWARE_UPDATE", "REPAIR", "INSTALLATION", "EXTENDED", "PROTECTION_PLAN", "REWARDS", "CREDIT", "INFOTAINMENT", "PERSONAL_SAFETY", "CONNECTED_VEHICLE", "MOBILE_APP", "OPTIMIZATION", "DIGITAL_ACCESSORY", "DIGITAL_ENHANCEMENT", "OEM", "AFTERMARKET", "PERFORMANCE", "PROPULSION_SYSTEM", "MERCHANDISE", "LOAN", "LEASE", "VEHICLE", "ACCESSORY", "OPTION", "PACKAGE", "BATTERY", "AIR", "SERVICE", "SUBSCRIPTION", "REPLACEMENT", "RENEWAL", "PAINT", "FABRIC", "GAP", "SINGLE_LIFE", "JOINT_LIFE", "SINGLE_ACCIDENT_HEALTH", "JOINT_ACCIDENT_HEALTH", "GROUP_ACCIDENT_HEALTH", "INDIV_ACCIDENT_HEALTH", "GENERAL_ACCIDENT_HEALTH", "WARRANTY", "DEALER_WARRANTY", "MAINTENANCE", "EXTENDED_SERVICE", "PARTS", "SURFACE_PROTECTION", "THEFT_DETERRENT", "THEFT_RECOVERY", "ETCHING", "TIRE_WHEEL", "EXCESS_PROTECTION", "DETERIORATION", "DAMAGE", "MAINT_PLAN SERVICE_PLAN", "SERVICE_CONTRACT", "INSURANCE", "TINT_PINSTRIPE", "DENT_REPAIR", "ROAD_HAZARD", "CONTRACT_CANCELLATION_OPTION", "OTHER" ]
+      },
+      "ProductTypes" : {
+        "type" : "string",
+        "description" : "Enumerated list of product types identifies a product type for a product",
+        "enum" : [ "INSURANCE", "FINANCE", "SERVICE", "PART", "ACCESSORY", "VEHICLE", "INFORMATION", "DURABLE_GOODS", "SOFTWARE", "SUBSCRIPTION" ]
+      },
+      "ProductDiscount" : {
+        "required" : [ "product_discount_amount", "product_discount_name" ],
+        "type" : "object",
+        "properties" : {
+          "product_discount_amount" : {
+            "type" : "number",
+            "description" : "Amount the discount costs"
+          },
+          "product_discount_href" : {
+            "type" : "string",
+            "description" : "Reference used to get the discount details"
+          },
+          "product_discount_id" : {
+            "type" : "string",
+            "description" : "Unique Identifier"
+          },
+          "product_discount_name" : {
+            "type" : "string",
+            "description" : "Name of the discount"
+          }
+        },
+        "description" : "Product discount details"
+      },
+      "ProductReward" : {
+        "required" : [ "product_applied_reward_href" ],
+        "type" : "object",
+        "properties" : {
+          "product_applied_reward" : {
+            "type" : "string",
+            "description" : "Applied reward"
+          },
+          "product_applied_reward_href" : {
+            "type" : "string",
+            "description" : "Reference used to get this applied reward details"
+          },
+          "product_reward_code" : {
+            "type" : "string",
+            "description" : "Reward Code"
+          },
+          "product_reward_id" : {
+            "type" : "string",
+            "description" : "Reward Transaction Identifier"
+          }
+        },
+        "description" : "Reward for this product"
+      },
+      "ProductRules" : {
+        "type" : "array",
+        "description" : "",
+        "items" : {
+          "$ref" : "#/components/schemas/ProductRule"
+        }
+      },
+      "ProductRule" : {
+        "required" : [ "contract_num" ],
+        "type" : "object",
+        "properties" : {
+          "contract_num" : {
+            "type" : "string",
+            "description" : "unique identifier for the contract number",
+            "example" : "1234567A "
+          },
+          "coverage_distance" : {
+            "type" : "integer",
+            "description" : "How much distance does this product cover",
+            "example" : 10000
+          },
+          "coverage_months" : {
+            "type" : "integer",
+            "description" : "How many months does this product cover",
+            "example" : 60
+          },
+          "exclude_indicator" : {
+            "type" : "boolean",
+            "description" : "exclude this rule",
+            "example" : false
+          },
+          "locale" : {
+            "type" : "string",
+            "description" : "The ISO country code of the country this product is offered in",
+            "example" : "US "
+          },
+          "purchase_types" : {
+            "type" : "array",
+            "description" : "Array of Event Objects",
+            "items" : {
+              "$ref" : "#/components/schemas/PurchaseTypes"
+            }
+          },
+          "payment_types" : {
+            "type" : "array",
+            "description" : "Array of Event Objects",
+            "items" : {
+              "$ref" : "#/components/schemas/PaymentTypes"
+            }
+          },
+          "location_codes" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "rule_desc" : {
+            "type" : "string",
+            "description" : "rule description",
+            "example" : "en_US "
+          },
+          "unlimited_date_indicator" : {
+            "type" : "boolean",
+            "description" : "Is there no end date on this product",
+            "example" : false
+          },
+          "coverage_expiration_date_time" : {
+            "type" : "string",
+            "description" : "expiration date and time",
+            "format" : "date-time",
+            "example" : "2020-12-12T10:23:00+08:00"
+          },
+          "unlimited_distance_indicator" : {
+            "type" : "string",
+            "description" : "indicates unlimited distance for this product",
+            "example" : "true "
+          }
+        },
+        "description" : "Rules and restriction details associated with this product"
+      },
+      "ProductSubject" : {
+        "required" : [ "party_name" ],
+        "type" : "object",
+        "properties" : {
+          "party_id" : {
+            "type" : "string",
+            "description" : "Buyer identifier"
+          },
+          "party_name" : {
+            "type" : "string",
+            "description" : "Name of the person or organization who will have the product"
+          },
+          "vehicle_id" : {
+            "type" : "string",
+            "description" : "Vehicle identifier the product was built for"
+          }
+        },
+        "description" : "Subject for this product"
+      },
+      "ProductTerm" : {
+        "required" : [ "term_name" ],
+        "type" : "object",
+        "properties" : {
+          "term_name" : {
+            "type" : "string",
+            "description" : "Name of the term"
+          },
+          "term_type" : {
+            "type" : "string",
+            "description" : "Type of the term"
+          },
+          "term_value" : {
+            "type" : "number",
+            "description" : "Value of the term"
+          }
+        },
+        "description" : "Product term details"
+      },
+      "ProductDetailAttribute" : {
+        "type" : "object",
+        "description" : "Attribute details for this product",
+        "oneOf" : [ {
+          "$ref" : "#/components/schemas/AttributesString"
+        }, {
+          "$ref" : "#/components/schemas/AttributesNumber"
+        }, {
+          "$ref" : "#/components/schemas/AttributesCurrency"
+        }, {
+          "$ref" : "#/components/schemas/AttributesBoolean"
+        }, {
+          "$ref" : "#/components/schemas/AttributesArray"
+        }, {
+          "$ref" : "#/components/schemas/AttributesDate"
+        } ]
+      },
+      "AttributesString" : {
+        "required" : [ "name", "type" ],
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "description" : "Name of the attribute"
+          },
+          "type" : {
+            "$ref" : "#/components/schemas/StringTypes"
+          },
+          "value" : {
+            "type" : "string",
+            "description" : "Value for the string attribute"
+          }
+        },
+        "description" : "String attribute"
+      },
+      "StringTypes" : {
+        "type" : "string",
+        "description" : "Enumerated list of string",
+        "enum" : [ "STRING" ]
+      },
+      "AttributesNumber" : {
+        "required" : [ "name", "type" ],
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "description" : "Name of the attribute"
+          },
+          "type" : {
+            "$ref" : "#/components/schemas/NumberTypes"
+          },
+          "value" : {
+            "type" : "number",
+            "description" : "Value for the number attribute"
+          }
+        },
+        "description" : "Number attribute"
+      },
+      "NumberTypes" : {
+        "type" : "string",
+        "description" : "Enumerated list of number",
+        "enum" : [ "NUMBER" ]
+      },
+      "AttributesCurrency" : {
+        "required" : [ "name", "type" ],
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "description" : "Name of the attribute"
+          },
+          "type" : {
+            "$ref" : "#/components/schemas/CurrencyTypes"
+          },
+          "value" : {
+            "type" : "number",
+            "description" : "Value for the currency attribute"
+          }
+        },
+        "description" : "Currency attribute"
+      },
+      "CurrencyTypes" : {
+        "type" : "string",
+        "description" : "Enumerated list of currency",
+        "enum" : [ "CURRENCY" ]
+      },
+      "AttributesBoolean" : {
+        "required" : [ "name", "type" ],
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "description" : "Name of the attribute"
+          },
+          "type" : {
+            "$ref" : "#/components/schemas/BooleanTypes"
+          },
+          "value" : {
+            "type" : "boolean",
+            "description" : "Value for the boolean attribute"
+          }
+        },
+        "description" : "Boolean attribute"
+      },
+      "BooleanTypes" : {
+        "type" : "string",
+        "description" : "Enumerated list of boolean",
+        "enum" : [ "BOOLEAN" ]
+      },
+      "AttributesArray" : {
+        "required" : [ "name", "type" ],
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "description" : "Name of the attribute"
+          },
+          "type" : {
+            "$ref" : "#/components/schemas/ArrayTypes"
+          },
+          "value" : {
+            "type" : "array",
+            "description" : "Array of values for the array attribute",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        },
+        "description" : "Array attribute"
+      },
+      "ArrayTypes" : {
+        "type" : "string",
+        "description" : "Enumerated list of array",
+        "enum" : [ "ARRAY" ]
+      },
+      "AttributesDate" : {
+        "required" : [ "name", "type" ],
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "description" : "Name of the attribute"
+          },
+          "type" : {
+            "$ref" : "#/components/schemas/DateTypes"
+          },
+          "value" : {
+            "type" : "string",
+            "description" : "The ISO 8601 encoded value for the date attribute",
+            "format" : "date-time"
+          }
+        },
+        "description" : "Date attribute"
+      },
+      "DateTypes" : {
+        "type" : "string",
+        "description" : "Enumerated list of date",
+        "enum" : [ "DATE" ]
+      },
+      "Link" : {
+        "required" : [ "href", "rel" ],
+        "type" : "object",
+        "properties" : {
+          "href" : {
+            "type" : "string",
+            "description" : "reference to an item",
+            "example" : "/dealers/232231"
+          },
+          "rel" : {
+            "type" : "string",
+            "description" : "referenced name of link",
+            "example" : "self"
+          },
+          "method" : {
+            "type" : "string",
+            "description" : "http method used to execute the link",
+            "example" : "GET"
+          },
+          "title" : {
+            "type" : "string",
+            "description" : "description of the link",
+            "example" : "Get Dealer Information"
+          }
+        },
+        "description" : "HATEOS link"
+      }
+    }
+  }
+}
